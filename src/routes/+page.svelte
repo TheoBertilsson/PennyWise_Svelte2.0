@@ -1,6 +1,5 @@
 <script lang="ts">
-	import LoginButton from '$lib/components/LoginButton.svelte';
-	import SignUpButton from '$lib/components/SignUpButton.svelte';
+	import SignInWithGoogle from "$lib/components/SignInWithGoogle.svelte";
 </script>
 
 <header class="flex justify-center h-[30vh]">
@@ -30,6 +29,5 @@
 			</div>
 		</section>
 	</article>
-	<SignUpButton />
-	<LoginButton />
+	<SignInWithGoogle/>
 </main>

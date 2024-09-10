@@ -21,24 +21,4 @@ export const firebaseApp = initializeApp(firebaseConfig);
 export const firebaseDB = getFirestore(firebaseApp);
 export const firebaseAuth = getAuth();
 export const fireStorage = getStorage();
-const userStore = () => {
-	let unsubscribe: () => void;
 
-	if (!firebaseAuth || !globalThis.window) {
-		console.warn('Auth is not initialized or not in browser');
-		const { subscribe } = writable<any | null>(null);
-		return {
-			subscribe
-		};
-	}
-	const { subscribe } = writable(firebaseAuth?.currentUser ?? null, (set) => {
-		unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-			set(user);
-		});
-		return () => unsubscribe();
-	});
-
-	return { subscribe };
-};
-
-export const user = userStore()
