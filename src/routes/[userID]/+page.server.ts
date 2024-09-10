@@ -2,6 +2,6 @@ import type { PageServerLoad } from '../../../.svelte-kit/types/src/routes/[user
 
 export const load = (async ({params}) => {
 	const userID = params.userID
-	
+
 	return {};
 }) satisfies PageServerLoad;
