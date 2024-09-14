@@ -1,8 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
-import { writable } from 'svelte/store';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyAW-0yFug37PoftfozxLmlEiYr40ZnrgJA',
@@ -21,4 +20,3 @@ export const firebaseApp = initializeApp(firebaseConfig);
 export const firebaseDB = getFirestore(firebaseApp);
 export const firebaseAuth = getAuth();
 export const fireStorage = getStorage();
-

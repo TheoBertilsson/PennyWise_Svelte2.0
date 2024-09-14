@@ -21,5 +21,4 @@ const userStore = () => {
 
 	return { subscribe };
 };
-
-export const user = userStore()
+export const user = userStore();
