@@ -1,32 +1,29 @@
 <script lang="ts">
-	import { firebaseAuth, firebaseDB } from '$lib/firebase';
-	import { setDoc, doc, getDoc} from 'firebase/firestore';
-	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-	import { user } from '$lib/stores/stores';
-	import { goto } from '$app/navigation';
+  import { auth } from "$lib/firebase";
 
-	const signInWithGoogle = async () => {
-		try {
-			const loginGoogleProvider = new GoogleAuthProvider();
-			await signInWithPopup(firebaseAuth, loginGoogleProvider);
-			const userDoc = await getDoc(doc(firebaseDB, 'users', $user.uid));
-			if (userDoc.exists()) {
-				goto(`Overview`);
-				return;
-			}
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
-			await setDoc(doc(firebaseDB, 'users', $user.uid), {
-				displayName: $user.displayName,
-				email: $user.email,
-				uid: $user.uid,
-			});
-			console.log('set');
+async function signInWithGoogle() {
+	const provider = new GoogleAuthProvider();
+	const credential = await signInWithPopup(auth, provider);
 
-			goto(`Overview`);
-		} catch (error) {
-			console.error('Error signing in with Google:', error);
-		}
-	};
+	const idToken = await credential.user.getIdToken();
+
+	const res = await fetch("/api/signin", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ idToken }),
+	}).catch((err) => {
+		console.error(err);
+	});
+}
+
+async function signOutSSR() {
+	const res = await fetch("/api/signin", { method: "DELETE" });
+	await signOut(auth);
+}
 </script>
 
 <button on:click={signInWithGoogle}

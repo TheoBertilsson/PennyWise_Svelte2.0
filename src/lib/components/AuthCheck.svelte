@@ -1,5 +1,5 @@
 <script lang="ts">
-import { user } from "$lib/stores/stores";
+import { user } from "$lib/stores/firebaseUser";
 </script>
 
  {#if $user}

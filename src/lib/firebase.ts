@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
+import { writable } from 'svelte/store';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyAW-0yFug37PoftfozxLmlEiYr40ZnrgJA',
@@ -18,5 +19,26 @@ const firebaseConfig = {
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 export const firebaseDB = getFirestore(firebaseApp);
-export const firebaseAuth = getAuth();
+export const auth = getAuth();
 export const fireStorage = getStorage();
+
+const userStore = () => {
+	let unsubscribe: () => void;
+
+	if (!auth || !globalThis.window) {
+		console.warn('Auth is not initialized or not in browser');
+		const { subscribe } = writable<User | null>(null);
+		return {
+			subscribe
+		};
+	}
+	const { subscribe } = writable(auth?.currentUser ?? null, (set) => {
+		unsubscribe = onAuthStateChanged(auth, (user) => {
+			set(user);
+		});
+		return () => unsubscribe();
+	});
+
+	return { subscribe };
+};
+export const user = userStore();
