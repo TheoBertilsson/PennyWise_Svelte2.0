@@ -1,29 +1,30 @@
 <script lang="ts">
-  import { auth } from "$lib/firebase";
+	import { goto } from '$app/navigation';
+	import { auth } from '$lib/firebase';
 
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+	import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
-async function signInWithGoogle() {
-	const provider = new GoogleAuthProvider();
-	const credential = await signInWithPopup(auth, provider);
+	async function signInWithGoogle() {
+		const provider = new GoogleAuthProvider();
+		const credential = await signInWithPopup(auth, provider);
 
-	const idToken = await credential.user.getIdToken();
+		const idToken = await credential.user.getIdToken();
 
-	const res = await fetch("/api/signin", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ idToken }),
-	}).catch((err) => {
-		console.error(err);
-	});
-}
+		const res = await fetch('/api/signin', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({idToken})
+		}).catch((err) => {
+			console.error(err);
+		});
+		if (res) {
+			goto('/dashboard');
+		}
+	}
 
-async function signOutSSR() {
-	const res = await fetch("/api/signin", { method: "DELETE" });
-	await signOut(auth);
-}
+
 </script>
 
 <button on:click={signInWithGoogle}

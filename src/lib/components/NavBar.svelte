@@ -1,8 +1,15 @@
 <script>
+	import { auth } from "$lib/firebase";
+	import { signOut } from "firebase/auth";
+
 	let isNavOpen = true;
 
 	function toggleNav() {
 		isNavOpen = !isNavOpen;
+	}
+	async function signOutSSR() {
+		const res = await fetch('/api/signin', { method: 'DELETE' });
+		await signOut(auth);
 	}
 </script>
 
@@ -26,7 +33,7 @@
 				<li class="mb-2"><a href="/Recurring" class="text-lg hover:text-gray-400">Recurring</a></li>
 			</ul>
 		</div>
-		<button class="text-lg hover:text-gray-400 p-4">Sign Out</button>
+		<button class="text-lg hover:text-gray-400 p-4" on:click={signOutSSR}>Sign Out</button>
 	</nav>
 {:else}
 	<button class="top-0 left-0 m-6 h-full text-xl" on:click={toggleNav}>

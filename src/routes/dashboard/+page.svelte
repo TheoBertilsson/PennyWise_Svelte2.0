@@ -1,9 +1,7 @@
 <script lang="ts">
-	import AuthCheck from '$lib/components/AuthCheck.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 </script>
 
-<AuthCheck>
 	<main class="flex">
 		<NavBar />
 		<div class="w-full p-8">
@@ -42,4 +40,3 @@
 			</div>
 		</div>
 	</main>
-</AuthCheck>
