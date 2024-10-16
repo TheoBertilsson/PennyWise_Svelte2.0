@@ -1,11 +1,12 @@
 <script lang="ts">
 	import NavBar from '$lib/components/NavBar.svelte';
+	export let data
 </script>
 
 	<main class="flex">
 		<NavBar />
 		<div class="w-full p-8">
-			<h1 class="text-3xl font-bold mb-12">Current month</h1>
+			<h1 class="text-3xl font-bold mb-12">Welcome back {data.displayName}</h1>
 			<div class="flex justify-between space-x-4">
 				<div class="w-1/3 bg-gray-200 p-4 rounded-lg shadow-md flex flex-col">
 					<span class="font-semibold">Remaining</span>

@@ -1,16 +1,15 @@
-import { adminAuth } from '$lib/server/admin.server';
+import { adminAuth, adminDB } from '$lib/server/admin.server';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ cookies }) => {
-	const sessionCookie = cookies.get('__session');
+export const load = (async ({ locals }) => {
+	const uid = locals.userID;
+	if (!uid) return redirect(301, '/login');
 
-	if (!sessionCookie) throw error(401, 'Unauthorized');
-	try {
-		const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie, true);
-		return {}
-	} catch (error) {
-		console.error(error);
-		redirect(301,'/login');
-	}
+	const userDoc = await adminDB.collection('users').doc(uid).get();
+	const userData = userDoc.data();
+	if (!userData) throw error(404, 'User not found');
+	const { displayName } = userData;
+
+	return { displayName };
 }) satisfies PageServerLoad;
