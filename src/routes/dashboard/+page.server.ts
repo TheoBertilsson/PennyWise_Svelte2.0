@@ -7,9 +7,13 @@ export const load = (async ({ locals }) => {
 	if (!uid) return redirect(301, '/login');
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
+	const transactionDoc = await adminDB.collection(`users/${uid}/transactions`).get();
+	const transactions = transactionDoc.docs.map(doc => doc.data());
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
 	const { displayName } = userData;
+	console.log(transactions);
+
 
 	return { displayName };
 }) satisfies PageServerLoad;
