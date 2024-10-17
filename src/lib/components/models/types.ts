@@ -1,4 +1,4 @@
-export type Transactions = {
+export type Transaction = {
   name: string;
   price: number;
   monthly: boolean;
@@ -12,6 +12,6 @@ export type User = {
 }
 export type DashboardData = {
   user: User;
-  transactions: Transactions[];
+  transactions: Transaction[];
 }
 export type Category = "food" | "transport" | "housing" | "entertainment" | "other" | "income" | "subscripton";
