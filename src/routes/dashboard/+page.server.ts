@@ -1,6 +1,7 @@
 import { adminAuth, adminDB } from '$lib/server/admin.server';
-import { error, redirect } from '@sveltejs/kit';
+import { error, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { Timestamp } from 'firebase-admin/firestore';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
@@ -8,12 +9,36 @@ export const load = (async ({ locals }) => {
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
 	const transactionDoc = await adminDB.collection(`users/${uid}/transactions`).get();
-	const transactions = transactionDoc.docs.map(doc => doc.data());
+	const transactions = transactionDoc.docs.map((doc) => doc.data());
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
 	const { displayName } = userData;
 	console.log(transactions);
 
-
 	return { displayName };
 }) satisfies PageServerLoad;
+
+export const actions = {
+	addItem: async ({ request, locals }) => {
+		const uid = locals.userID;
+		console.log('add');
+
+		if (!uid) return error(401, 'Unauthorized');
+		const formData = await request.formData();
+		const name = formData.get('name');
+		const price = formData.get('price');
+		const monthly = formData.get('monthly') === 'on';
+		const category = formData.get('category');
+
+		const newItem = {
+			name,
+			price,
+			monthly,
+			category,
+			createdAt: Timestamp.now()
+		};
+		await adminDB.collection(`users/${uid}/transactions`).add(newItem);
+
+		return { status: 'success' };
+	}
+} satisfies Actions;
