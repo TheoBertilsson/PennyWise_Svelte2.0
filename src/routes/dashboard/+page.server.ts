@@ -9,13 +9,21 @@ export const load = (async ({ locals }) => {
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
 	const transactionDoc = await adminDB.collection(`users/${uid}/transactions`).get();
-	const transactions = transactionDoc.docs.map((doc) => doc.data());
+	const transactions = transactionDoc.docs.map((doc) => {
+		const data = doc.data();
+		return {
+				...data,
+				createdAt: data.createdAt.toDate().toISOString()
+		};
+});
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
-	const { displayName } = userData;
 	console.log(transactions);
 
-	return { displayName };
+	return {
+		user: userData,
+		transactions
+	};
 }) satisfies PageServerLoad;
 
 export const actions = {

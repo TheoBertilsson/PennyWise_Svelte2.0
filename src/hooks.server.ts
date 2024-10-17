@@ -6,11 +6,11 @@ export const handle = (async ({event, resolve}) => {
 	try {
 		const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie!, true);
 		event.locals.userID = decodedClaims.uid;
-		console.log('found');
+		console.log('found cookie noom');
 
 	} catch (error) {
 		event.locals.userID = null;
-		console.log('not found');
+		console.log('no found cookie');
 	}
 	return resolve(event);
 }) satisfies Handle;

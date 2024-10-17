@@ -28,21 +28,22 @@
 				Add item and press add when done
 			</p>
 			<form method="POST" action="?/addItem" class="flex flex-col gap-4" use:enhance>
-					<label for="name">Name</label>
-					<input type="text" id="name" name="name" placeholder="Name" required />
-					<label for="price">Price</label>
-					<input type="number" id="price" name="price" placeholder="Price" required />
+				<label for="name">Name</label>
+				<input type="text" id="name" name="name" placeholder="Name" required />
+				<label for="price">Price</label>
+				<input type="number" id="price" name="price" placeholder="Price" required />
 
-					<label for="category">Category</label>
-					<select name="category" id="category">
-						<option value="food">Food</option>
-						<option value="transport">Transport</option>
-						<option value="housing">Housing</option>
-						<option value="entertainment">Entertainment</option>
-						<option value="other">Other</option>
-					</select>
-					<div>
-							<label for="monthly">Monthly</label>
+				<label for="category">Category</label>
+				<select name="category" id="category">
+					<option value="food">Food</option>
+					<option value="transport">Transport</option>
+					<option value="housing">Housing</option>
+					<option value="entertainment">Entertainment</option>
+					<option value="subscription">Subscription</option>
+					<option value="other">Other</option>
+				</select>
+				<div>
+					<label for="monthly">Monthly</label>
 					<input
 						type="checkbox"
 						id="monthly"
@@ -51,24 +52,25 @@
 						checked
 						required
 					/>
-					</div>
+				</div>
 
-					<div class="mt-6 flex justify-end gap-4">
-						<button
-							use:melt={$close}
-							type="submit"
-							class="inline-flex h-8 items-center justify-center rounded-sm
+				<div class="mt-6 flex justify-end gap-4">
+					<button
+						use:melt={$close}
+						class="inline-flex h-8 items-center justify-center rounded-sm
 												bg-zinc-100 px-8 py-4 font-medium leading-none text-zinc-600"
-						>
-							Cancel
-						</button>
-						<button
-							class="inline-flex h-8 items-center justify-center rounded-sm
+					>
+						Cancel
+					</button>
+					<button
+						use:melt={$close}
+						type="submit"
+						class="inline-flex h-8 items-center justify-center rounded-sm
 												bg-magnum-100 px-8 py-4 font-semibold leading-none text-magnum-900"
-						>
-							Add Transaction
-						</button>
-					</div>
+					>
+						Add Transaction
+					</button>
+				</div>
 			</form>
 		</div>
 	</div>

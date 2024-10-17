@@ -1,12 +1,13 @@
 <script lang="ts">
 	import AddItem from '$lib/components/buttons/AddItem.svelte';
 import NavBar from '$lib/components/NavBar.svelte';
+	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
 	export let data;
 </script>
 
-<main class="flex">
-	<div class="flex flex-col gap-8 p-5">
-		<h1 class="text-3xl font-bold">Welcome, {data.displayName}!</h1>
+<main class="flex w-full">
+	<div class="flex flex-col gap-8 p-5 w-full">
+		<h1 class="text-3xl font-bold">Welcome, {data.user.displayName}!</h1>
 		<div class="flex justify-between space-x-4">
 			<div class="w-1/3 bg-gray-200 p-4 rounded-lg shadow-md flex flex-col">
 				<span class="font-semibold">Remaining</span>
@@ -29,13 +30,12 @@ import NavBar from '$lib/components/NavBar.svelte';
 				<button class="absolute top-2 right-2 text-xl">+</button>
 				<span class="text-xl font-semibold">Savings</span>
 			</a>
-			<a href="/budget" class="relative bg-gray-200 p-4 rounded-lg shadow-md h-90 row-span-2">
+			<a href="/budget" class="relative bg-gray-200 p-4 rounded-lg shadow-md h-90 row-span-2 ">
 				<button class="absolute top-2 right-2 text-xl">+</button>
 				<span class="text-xl font-semibold">Budget</span>
 			</a>
 			<a href="/transaction" class="relative bg-gray-200 p-4 rounded-lg shadow-md h-96 row-span-2">
-				<button class="absolute top-2 right-2 text-xl">+</button>
-				<span class="text-xl font-semibold">Transaction</span>
+				<TransactionBox transactions={data.transactions}/>
 			</a>
 			<a href="/recurring" class="relative bg-gray-200 p-4 rounded-lg shadow-md h-44">
 				<button class="absolute top-2 right-2 text-xl">+</button>
