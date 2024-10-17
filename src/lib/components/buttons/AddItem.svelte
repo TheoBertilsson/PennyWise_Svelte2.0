@@ -8,7 +8,7 @@
 	} = createDialog({ forceVisible: true });
 </script>
 
-<button class=" border-black border-2 p-4 rounded-lg shadow-md w-full" use:melt={$trigger}>
+<button class=" w-full rounded-lg border-2 border-black p-4 shadow-md" use:melt={$trigger}>
 	Add transaction</button
 >
 
@@ -23,9 +23,11 @@
 			class="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white p-6 shadow-lg"
 			use:melt={$content}
 		>
-			<h2 use:melt={$title} class="m-0 text-lg font-medium text-black text-center underline">Add Transaction</h2>
+			<h2 use:melt={$title} class="m-0 text-center text-lg font-medium text-black underline">
+				Add Transaction
+			</h2>
 
-			<form method="POST" action="?/addItem" class="flex flex-col gap-4" >
+			<form method="POST" action="?/addItem" class="flex flex-col gap-4">
 				<label for="name">Name</label>
 				<input type="text" id="name" name="name" placeholder="Name" required />
 				<label for="price">Price</label>
@@ -44,13 +46,7 @@
 				</select>
 				<div>
 					<label for="monthly">Monthly</label>
-					<input
-						type="checkbox"
-						id="monthly"
-						name="monthly"
-						placeholder="Monthly"
-						checked
-					/>
+					<input type="checkbox" id="monthly" name="monthly" placeholder="Monthly" checked />
 				</div>
 
 				<div class="mt-6 flex justify-end gap-4">
@@ -64,8 +60,8 @@
 					<button
 						use:melt={$close}
 						type="submit"
-						class="inline-flex h-8 items-center justify-center rounded-sm
-												bg-magnum-100 px-8 py-4 font-semibold leading-none text-magnum-900"
+						class="bg-magnum-100 text-magnum-900 inline-flex h-8 items-center
+												justify-center rounded-sm px-8 py-4 font-semibold leading-none"
 					>
 						Add Transaction
 					</button>

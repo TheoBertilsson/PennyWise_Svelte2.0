@@ -34,35 +34,35 @@
 </script>
 
 <main class="flex w-full">
-	<div class="flex flex-col gap-8 p-5 w-full h-screen">
+	<div class="flex h-screen w-full flex-col gap-8 p-5">
 		<h1 class="text-3xl font-bold">Welcome, {data.user.displayName}!</h1>
 		<div class="flex flex-col justify-between gap-4">
-			<div class="w-full bg-primary p-4 rounded-lg shadow-md flex flex-col">
+			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
 				<span class=" text-white">Current balance</span>
-				<span class="text-2xl text-white font-bold">${remainingSum}</span>
+				<span class="text-2xl font-bold text-white">${remainingSum}</span>
 			</div>
-			<div class="w-full bg-white p-4 rounded-lg shadow-md flex flex-col">
+			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
 				<span class="text-text">Income</span>
 				<span class="text-2xl font-bold">${incomeSum}</span>
 			</div>
-			<div class="w-full bg-white p-4 rounded-lg shadow-md flex flex-col">
+			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
 				<span class="text-text">Expenses</span>
 				<span class="text-2xl font-bold">${expenseSum}</span>
 			</div>
 		</div>
-		<div class="w-full flex flex-col gap-4 pb-4">
-			<a href="/transaction" class="relative bg-white p-4 rounded-lg shadow-md min-h-52">
+		<div class="flex w-full flex-col gap-4 pb-4">
+			<a href="/transaction" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<TransactionBox transactions={expenses} />
 			</a>
-			<div class="flex gap-4 w-full">
-				<a href="/savings" class="relative bg-white p-4 rounded-lg shadow-md min-h-36 w-1/2">
+			<div class="flex w-full gap-4">
+				<a href="/savings" class="relative min-h-36 w-1/2 rounded-lg bg-white p-4 shadow-md">
 					<span class="text-xl font-semibold">Savings</span>
 				</a>
-				<a href="/recurring" class="relative bg-white p-4 rounded-lg shadow-md min-h-36 w-1/2">
+				<a href="/recurring" class="relative min-h-36 w-1/2 rounded-lg bg-white p-4 shadow-md">
 					<ReccuringBox {monthlyTransactions} />
 				</a>
 			</div>
-			<a href="/budget" class="relative bg-white p-4 rounded-lg shadow-md min-h-52">
+			<a href="/budget" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<span class="text-xl font-semibold">Budget</span>
 			</a>
 		</div>

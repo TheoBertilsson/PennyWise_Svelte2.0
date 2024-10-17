@@ -1,22 +1,22 @@
 <script lang="ts">
-	export let transactions
+	export let transactions;
 </script>
 
 <div class="border-b-2 border-zinc-500">
-	<button class="absolute top-2 right-2 text-xl">+</button>
-<span class="text-xl font-semibold">Transactions</span>
+	<button class="absolute right-2 top-2 text-xl">+</button>
+	<span class="text-xl font-semibold">Transactions</span>
 </div>
-<div class="flex flex-col gap-2 overflow-scroll max-h-[90%] p-3 scrollbar-hide">
+<div class="scrollbar-hide flex max-h-[90%] flex-col gap-2 overflow-scroll p-3">
 	{#each transactions as transaction}
-		<div class="flex justify-between p-2 border-2 border-zinc-400 shadow-md rounded-lg">
+		<div class="flex justify-between rounded-lg border-2 border-zinc-400 p-2 shadow-md">
 			<span>{transaction.name}</span>
-			<span class="text-zinc-500 capitalize">{transaction.category}</span>
+			<span class="capitalize text-zinc-500">{transaction.category}</span>
 			<span>{transaction.price} $</span>
 		</div>
 	{/each}
 </div>
 
-	<style>
+<style>
 	/* Custom scrollbar for Chrome, Safari and Opera */
 	.scrollbar-hide::-webkit-scrollbar {
 		width: 12px; /* Adjust the width as needed */

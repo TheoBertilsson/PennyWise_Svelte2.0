@@ -15,7 +15,7 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({idToken})
+			body: JSON.stringify({ idToken })
 		}).catch((err) => {
 			console.error(err);
 		});
@@ -23,14 +23,12 @@
 			goto('/dashboard');
 		}
 	}
-
-
 </script>
 
 <button on:click={signInWithGoogle}
 	><img
 		src="/LoginSVGs/signInWithGoogle.png"
 		alt="Sign in with Google button"
-		class="w-[30vh] mx-auto my-10"
+		class="mx-auto my-10 w-[30vh]"
 	/></button
 >

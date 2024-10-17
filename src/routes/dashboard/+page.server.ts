@@ -12,10 +12,10 @@ export const load = (async ({ locals }) => {
 	const transactions = transactionDoc.docs.map((doc) => {
 		const data = doc.data();
 		return {
-				...data,
-				createdAt: data.createdAt.toDate().toISOString()
+			...data,
+			createdAt: data.createdAt.toDate().toISOString()
 		};
-});
+	});
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
 
