@@ -25,7 +25,7 @@
 		>
 			<h2 use:melt={$title} class="m-0 text-lg font-medium text-black text-center underline">Add Transaction</h2>
 
-			<form method="POST" action="?/addItem" class="flex flex-col gap-4" use:enhance>
+			<form method="POST" action="?/addItem" class="flex flex-col gap-4" >
 				<label for="name">Name</label>
 				<input type="text" id="name" name="name" placeholder="Name" required />
 				<label for="price">Price</label>
@@ -50,7 +50,6 @@
 						name="monthly"
 						placeholder="Monthly"
 						checked
-						required
 					/>
 				</div>
 
