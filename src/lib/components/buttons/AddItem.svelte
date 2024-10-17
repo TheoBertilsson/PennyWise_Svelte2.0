@@ -8,7 +8,7 @@
 	} = createDialog({ forceVisible: true });
 </script>
 
-<button class=" border-black border-2 p-4 rounded-lg shadow-md" use:melt={$trigger}>
+<button class=" border-black border-2 p-4 rounded-lg shadow-md w-full" use:melt={$trigger}>
 	Add transaction</button
 >
 
