@@ -3,7 +3,6 @@
 </script>
 
 <div class="border-b-2 border-zinc-500">
-	<button class="absolute right-2 top-2 text-xl">+</button>
 	<span class="text-xl font-semibold">Transactions</span>
 </div>
 <div class="scrollbar-hide flex max-h-[90%] flex-col gap-2 overflow-scroll p-3">

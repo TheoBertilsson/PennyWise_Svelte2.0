@@ -13,6 +13,7 @@ export const load = (async ({ locals }) => {
 		const data = doc.data();
 		return {
 			...data,
+			dueDate: data.dueDate?.toDate().toISOString(),
 			createdAt: data.createdAt.toDate().toISOString()
 		};
 	});

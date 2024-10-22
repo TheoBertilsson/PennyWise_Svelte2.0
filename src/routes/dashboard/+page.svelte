@@ -51,19 +51,18 @@
 			</div>
 		</div>
 		<div class="flex w-full flex-col gap-4 pb-4">
+			<a href="/savings" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
+				<span class="text-xl font-semibold">Savings</span>
+			</a>
 			<a href="/transaction" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<TransactionBox transactions={expenses} />
 			</a>
-			<div class="flex w-full gap-4">
-				<a href="/savings" class="relative min-h-36 w-1/2 rounded-lg bg-white p-4 shadow-md">
-					<span class="text-xl font-semibold">Savings</span>
-				</a>
-				<a href="/recurring" class="relative min-h-36 w-1/2 rounded-lg bg-white p-4 shadow-md">
-					<ReccuringBox {monthlyTransactions} />
-				</a>
-			</div>
+
 			<a href="/budget" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<span class="text-xl font-semibold">Budget</span>
+			</a>
+			<a href="/recurring" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
+				<ReccuringBox {monthlyTransactions} />
 			</a>
 		</div>
 	</div>
