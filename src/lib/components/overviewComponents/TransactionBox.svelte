@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type { Transaction } from '../models/types';
 
-	export let transactions: Transaction[];
-	const transactionsWithDate = transactions.map((transaction) => {
+	interface Props {
+		expenseTransactions: Transaction[];
+	}
+
+	let { expenseTransactions }: Props = $props();
+	const transactionsWithDate = expenseTransactions.map((transaction) => {
 		const createdAt = new Date(transaction.createdAt);
 		const month = createdAt.toLocaleString('default', { month: 'short' });
 		const day = createdAt.getDate();

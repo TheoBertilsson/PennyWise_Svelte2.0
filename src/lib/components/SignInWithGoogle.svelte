@@ -25,7 +25,7 @@
 	}
 </script>
 
-<button on:click={signInWithGoogle}
+<button onclick={signInWithGoogle}
 	><img
 		src="/LoginSVGs/signInWithGoogle.png"
 		alt="Sign in with Google button"

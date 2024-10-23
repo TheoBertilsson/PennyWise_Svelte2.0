@@ -2,7 +2,11 @@
 	import { getPaidReccuringTransactions, getUpcomingReccuringTransactions } from '$lib/monthlyTransactions';
 	import type { Transaction } from '../models/types';
 
-	export let monthlyTransactions: Transaction[];
+	interface Props {
+		monthlyTransactions: Transaction[];
+	}
+
+	let { monthlyTransactions }: Props = $props();
 	const expenses = monthlyTransactions.filter((transaction) => transaction.category !== 'income');
 	const totalRecurringExpenses = expenses.reduce((sum, transaction) => sum + Number(transaction.price), 0);
 	const paidReccuringExpensesSum = getPaidReccuringTransactions(monthlyTransactions).reduce((sum,transaction)=>sum+Number(transaction.price),0)

@@ -3,7 +3,11 @@
 	import type { DashboardData } from '$lib/components/models/types';
 	import ReccuringBox from '$lib/components/overviewComponents/ReccuringBox.svelte';
 	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
-	export let data: DashboardData;
+	interface Props {
+		data: DashboardData;
+	}
+
+	let { data }: Props = $props();
 
 	const today = new Date();
 	const currentDay = today.getDate();
@@ -27,8 +31,8 @@
 
 	const currentTransactions = [...monthlyTransactions, ...filteredTransactions];
 	const income = currentTransactions.filter((transaction) => transaction.category === 'income');
-	const expenses = currentTransactions.filter((transaction) => transaction.category !== 'income');
-	const expenseSum = expenses.reduce((sum, transaction) => sum + Number(transaction.price), 0);
+	const expenseTransactions = currentTransactions.filter((transaction) => transaction.category !== 'income');
+	const expenseSum = expenseTransactions.reduce((sum, transaction) => sum + Number(transaction.price), 0);
 	const incomeSum = income.reduce((sum, transaction) => sum + Number(transaction.price), 0);
 	const remainingSum = incomeSum - expenseSum;
 </script>
@@ -55,7 +59,7 @@
 				<span class="text-xl font-semibold">Savings</span>
 			</a>
 			<a href="/transaction" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
-				<TransactionBox transactions={expenses} />
+				<TransactionBox {expenseTransactions} />
 			</a>
 
 			<a href="/budget" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">

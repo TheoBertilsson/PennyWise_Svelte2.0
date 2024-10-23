@@ -2,7 +2,7 @@
 	import { auth } from '$lib/firebase';
 	import { signOut } from 'firebase/auth';
 
-	let isNavOpen = true;
+	let isNavOpen = $state(true);
 
 	function toggleNav() {
 		isNavOpen = !isNavOpen;
@@ -18,7 +18,7 @@
 		class=" left-0 top-0 flex h-screen w-64 flex-col items-center justify-between bg-secondary text-primary"
 	>
 		<div class="relative flex w-full flex-col items-center justify-center">
-			<button class="absolute left-0 top-0 h-12 w-12 text-lg" on:click={toggleNav}>
+			<button class="absolute left-0 top-0 h-12 w-12 text-lg" onclick={toggleNav}>
 				<i class="bi bi-x"></i>
 			</button>
 			<h2 class="my-10 p-2 text-2xl font-bold">PennyWise</h2>
@@ -33,10 +33,10 @@
 				<li class="mb-2"><a href="/Recurring" class="text-lg hover:text-gray-400">Recurring</a></li>
 			</ul>
 		</div>
-		<button class="p-4 text-lg hover:text-gray-400" on:click={signOutSSR}>Sign Out</button>
+		<button class="p-4 text-lg hover:text-gray-400" onclick={signOutSSR}>Sign Out</button>
 	</nav>
 {:else}
-	<button class="left-0 top-0 m-6 h-full text-xl" on:click={toggleNav}>
+	<button class="left-0 top-0 m-6 h-full text-xl" onclick={toggleNav}>
 		<i class="bi bi-list"></i>
 	</button>
 {/if}
