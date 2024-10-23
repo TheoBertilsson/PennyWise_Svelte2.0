@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import DatePicker from '../meltUI/DatePicker.svelte';
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 	const {
@@ -36,18 +36,21 @@
 				<label for="category">Category</label>
 				<select name="category" id="category">
 					<option value="select" disabled selected>Select Category</option>
+					<option value="savings">Savings</option>
+					<option value="income">Income</option>
 					<option value="food">Food</option>
 					<option value="transport">Transport</option>
 					<option value="housing">Housing</option>
 					<option value="entertainment">Entertainment</option>
 					<option value="subscription">Subscription</option>
-					<option value="income">Income</option>
+
 					<option value="other">Other</option>
-				</select>
+				</select><DatePicker />
 				<div>
 					<label for="monthly">Monthly</label>
 					<input type="checkbox" id="monthly" name="monthly" placeholder="Monthly" checked />
 				</div>
+
 
 				<div class="mt-6 flex justify-end gap-4">
 					<button
