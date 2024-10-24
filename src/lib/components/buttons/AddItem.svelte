@@ -20,7 +20,7 @@
 			transition:fade={{ duration: 500 }}
 		></div>
 		<div
-			class="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white p-6 shadow-lg"
+			class="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background p-6 shadow-lg"
 			use:melt={$content}
 		>
 			<h2 use:melt={$title} class="m-0 text-center text-lg font-medium text-black underline">
@@ -28,13 +28,27 @@
 			</h2>
 
 			<form method="POST" action="?/addItem" class="flex flex-col gap-4">
-				<label for="name">Name</label>
-				<input type="text" id="name" name="name" placeholder="Name" required />
-				<label for="price">Price</label>
-				<input type="number" id="price" name="price" placeholder="Price" min="0" required />
+				<div class="flex flex-col gap-2">
+					<input
+						type="text"
+						id="name"
+						name="name"
+						placeholder="Name"
+						required
+						class="rounded-md p-2"
+					/>
+					<input
+						type="number"
+						id="price"
+						name="price"
+						placeholder="Price"
+						min="0"
+						required
+						class="rounded-md p-2"
+					/>
+				</div>
 
-				<label for="category">Category</label>
-				<select name="category" id="category">
+				<select name="category" id="category" class="rounded-md p-2">
 					<option value="select" disabled selected>Select Category</option>
 					<option value="savings">Savings</option>
 					<option value="income">Income</option>
@@ -45,12 +59,12 @@
 					<option value="subscription">Subscription</option>
 
 					<option value="other">Other</option>
-				</select><DatePicker />
-				<div>
+				</select>
+				<div class="flex items-center justify-center gap-2 ">
+					<DatePicker />
 					<label for="monthly">Monthly</label>
 					<input type="checkbox" id="monthly" name="monthly" placeholder="Monthly" checked />
 				</div>
-
 
 				<div class="mt-6 flex justify-end gap-4">
 					<button

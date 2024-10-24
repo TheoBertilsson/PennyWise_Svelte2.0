@@ -1,10 +1,9 @@
-import type { Timestamp } from "firebase-admin/firestore";
 
 export type Transaction = {
   name: string;
   price: number;
   monthly: boolean;
-  dueDate?: Date;
+  dueDate: string;
   category: Category;
   createdAt: string;
 }

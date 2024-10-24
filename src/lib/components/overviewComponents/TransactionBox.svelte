@@ -7,13 +7,13 @@
 
 	let { expenseTransactions }: Props = $props();
 	const transactionsWithDate = expenseTransactions.map((transaction) => {
-		const createdAt = new Date(transaction.createdAt);
-		const month = createdAt.toLocaleString('default', { month: 'short' });
-		const day = createdAt.getDate();
-		const year = createdAt.getFullYear();
+		const dueDate = new Date(transaction.dueDate);
+		const month = dueDate.toLocaleString('default', { month: 'short' });
+		const day = dueDate.getDate();
+		const year = dueDate.getFullYear();
 		return {
 			...transaction,
-			createdAt: `${day} ${month} ${year}`,
+			dueDate: `${day} ${month} ${year}`
 		};
 	});
 </script>
@@ -22,18 +22,24 @@
 	<span class="text-xl font-semibold">Transactions</span>
 </div>
 <div class="scrollbar-hide flex max-h-[90%] flex-col gap-4 overflow-scroll">
-	{#each transactionsWithDate as transaction}
-		<div class="flex justify-between border-b-2 border-[#f7f7f7] p-2">
-			<div class="flex items-center gap-4">
-				<span class="h-8 w-8 rounded-full bg-text"></span>
-				<span class="line-clamp-1 capitalize">{transaction.name}</span>
-			</div>
-			<div class="flex flex-col items-end">
-				<span class="font-bold text-base">{transaction.price}$</span>
-				<span class="capitalize text-sm text-text">{transaction.createdAt}</span>
-			</div>
+	{#if transactionsWithDate.length === 0}
+		<div class="flex h-36 items-center justify-center rounded-lg bg-white shadow-md">
+			<span class="text-lg text-text">No transactions</span>
 		</div>
-	{/each}
+	{:else}
+		{#each transactionsWithDate as transaction}
+			<div class="flex justify-between border-b-2 border-[#f7f7f7] p-2">
+				<div class="flex items-center gap-4">
+					<span class="h-8 w-8 rounded-full bg-text"></span>
+					<span class="line-clamp-1 capitalize">{transaction.name}</span>
+				</div>
+				<div class="flex flex-col items-end">
+					<span class="text-base font-bold">{transaction.price}$</span>
+					<span class="text-sm capitalize text-text">{transaction.dueDate}</span>
+				</div>
+			</div>
+		{/each}
+	{/if}
 </div>
 
 <style>
