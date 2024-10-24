@@ -37,13 +37,15 @@ export const actions = {
 		const price = formData.get('price');
 		const monthly = formData.get('monthly') === 'on';
 		const category = formData.get('category');
+		const dueDate = formData.get('dueDate');
 
 		const newItem = {
 			name,
 			price,
 			monthly,
 			category,
-			createdAt: Timestamp.now()
+			createdAt: Timestamp.now(),
+			dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate.toString())) : null
 		};
 		await adminDB.collection(`users/${uid}/transactions`).add(newItem);
 

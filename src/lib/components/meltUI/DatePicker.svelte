@@ -3,6 +3,11 @@
   import { fade } from 'svelte/transition';
   import { CalendarDate } from '@internationalized/date';
 
+	const today = new Date();
+	const currentDay = today.getDate();
+	const currentMonth = today.getMonth() + 1;
+	const currentYear = today.getFullYear();
+
   const {
     elements: {
       calendar,
@@ -16,13 +21,15 @@
       prevButton,
       segment,
       trigger,
+			hiddenInput
     },
     states: { months, headingValue, weekdays, segmentContents, open },
     helpers: { isDateDisabled, isDateUnavailable },
     options: { locale },
   } = createDatePicker({
+		name:'dueDate',
     forceVisible: true,
-    defaultValue: new CalendarDate(2024, 1, 11),
+    defaultValue: new CalendarDate(currentYear, currentMonth, currentDay),
   });
 </script>
 
@@ -42,6 +49,7 @@
           IMG
         </button>
       </div>
+			<input use:melt={$hiddenInput}>
     </div>
   </div>
   {#if $open}
