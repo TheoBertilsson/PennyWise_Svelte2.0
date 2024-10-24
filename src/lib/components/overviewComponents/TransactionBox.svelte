@@ -1,22 +1,48 @@
 <script lang="ts">
-	export let transactions
+	import type { Transaction } from '../models/types';
+
+	interface Props {
+		expenseTransactions: Transaction[];
+	}
+
+	let { expenseTransactions }: Props = $props();
+	const transactionsWithDate = expenseTransactions.map((transaction) => {
+		const dueDate = new Date(transaction.dueDate);
+		const month = dueDate.toLocaleString('default', { month: 'short' });
+		const day = dueDate.getDate();
+		const year = dueDate.getFullYear();
+		return {
+			...transaction,
+			dueDate: `${day} ${month} ${year}`
+		};
+	});
 </script>
 
-<div class="border-b-2 border-zinc-500">
-	<button class="absolute top-2 right-2 text-xl">+</button>
-<span class="text-xl font-semibold">Transactions</span>
+<div class="mb-4 border-b-2 border-zinc-500">
+	<span class="text-xl font-semibold">Transactions</span>
 </div>
-<div class="flex flex-col gap-2 overflow-scroll max-h-[90%] p-3 scrollbar-hide">
-	{#each transactions as transaction}
-		<div class="flex justify-between p-2 border-2 border-zinc-400 shadow-md rounded-lg">
-			<span>{transaction.name}</span>
-			<span class="text-zinc-500 capitalize">{transaction.category}</span>
-			<span>{transaction.price} $</span>
+<div class="scrollbar-hide flex max-h-[90%] flex-col gap-4 overflow-scroll">
+	{#if transactionsWithDate.length === 0}
+		<div class="flex h-36 items-center justify-center rounded-lg bg-white shadow-md">
+			<span class="text-lg text-text">No transactions</span>
 		</div>
-	{/each}
+	{:else}
+		{#each transactionsWithDate as transaction}
+			<div class="flex justify-between border-b-2 border-[#f7f7f7] p-2">
+				<div class="flex items-center gap-4">
+					<span class="h-8 w-8 rounded-full bg-text"></span>
+					<span class="line-clamp-1 capitalize">{transaction.name}</span>
+				</div>
+				<div class="flex flex-col items-end">
+					<span class="text-base font-bold">{transaction.price}$</span>
+					<span class="text-sm capitalize text-text">{transaction.dueDate}</span>
+				</div>
+			</div>
+		{/each}
+	{/if}
 </div>
 
-	<style>
+<style>
 	/* Custom scrollbar for Chrome, Safari and Opera */
 	.scrollbar-hide::-webkit-scrollbar {
 		width: 12px; /* Adjust the width as needed */

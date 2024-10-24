@@ -1,5 +1,5 @@
 import { adminAuth } from '$lib/server/admin.server';
-import { error, json,  } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -14,7 +14,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 			cookies.set('__session', cookie, options);
 			return json({ status: 'signedIn' });
-
 		} else {
 			throw error(401, 'Recent sign in required!');
 		}
