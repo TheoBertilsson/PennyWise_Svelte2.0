@@ -27,7 +27,7 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	addItem: async ({ request, locals }) => {
+	addTransaction: async ({ request, locals }) => {
 		const uid = locals.userID;
 		console.log('add');
 

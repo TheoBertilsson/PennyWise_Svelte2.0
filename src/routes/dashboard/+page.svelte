@@ -1,8 +1,11 @@
 <script lang="ts">
-	import AddItem from '$lib/components/buttons/AddItem.svelte';
+	import AddItem from '$lib/components/buttons/AddTransaction.svelte';
 	import type { DashboardData } from '$lib/components/models/types';
 	import ReccuringBox from '$lib/components/overviewComponents/ReccuringBox.svelte';
 	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
+	import { auth } from '$lib/firebase';
+	import { signOut } from 'firebase/auth';
+	import { onDestroy } from 'svelte';
 
 	interface Props {
 		data: DashboardData;
@@ -32,8 +35,13 @@
 
 	const currentTransactions = [...monthlyTransactions, ...filteredTransactions];
 	const income = currentTransactions.filter((transaction) => transaction.category === 'income');
-	const expenseTransactions = currentTransactions.filter((transaction) => transaction.category !== 'income');
-	const expenseSum = expenseTransactions.reduce((sum, transaction) => sum + Number(transaction.price), 0);
+	const expenseTransactions = currentTransactions.filter(
+		(transaction) => transaction.category !== 'income'
+	);
+	const expenseSum = expenseTransactions.reduce(
+		(sum, transaction) => sum + Number(transaction.price),
+		0
+	);
 	const incomeSum = income.reduce((sum, transaction) => sum + Number(transaction.price), 0);
 	const remainingSum = incomeSum - expenseSum;
 </script>
@@ -44,15 +52,15 @@
 		<div class="flex flex-col justify-between gap-4">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
 				<span class=" text-white">Current balance</span>
-				<span class="text-3xl font-bold text-white">${remainingSum}</span>
+				<span class="text-3xl font-bold text-white">{remainingSum}$</span>
 			</div>
 			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
 				<span class="text-text">Income</span>
-				<span class="text-3xl font-bold">${incomeSum}</span>
+				<span class="text-3xl font-bold">{incomeSum}$</span>
 			</div>
 			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
 				<span class="text-text">Expenses</span>
-				<span class="text-3xl font-bold">${expenseSum}</span>
+				<span class="text-3xl font-bold">-{expenseSum}$</span>
 			</div>
 		</div>
 		<AddItem />

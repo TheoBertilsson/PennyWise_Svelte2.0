@@ -27,7 +27,7 @@
 				Add Transaction
 			</h2>
 
-			<form method="POST" action="?/addItem" class="flex flex-col gap-4">
+			<form method="POST" action="?/addTransaction" class="flex flex-col gap-4">
 				<div class="flex flex-col gap-2">
 					<input
 						type="text"
