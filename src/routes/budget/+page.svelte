@@ -1,7 +1,5 @@
 <script lang="ts">
-	import Select from "$lib/components/meltUI/Select.svelte";
-
-
+	import AddBudgetItem from '$lib/components/buttons/AddBudgetItem.svelte';
 </script>
 
-<Select/>
+<AddBudgetItem />

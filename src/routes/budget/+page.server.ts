@@ -27,27 +27,25 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	addTransaction: async ({ request, locals }) => {
+	addBudgetItem: async ({ request, locals }) => {
 		const uid = locals.userID;
-		console.log('add');
 
 		if (!uid) return error(401, 'Unauthorized');
 		const formData = await request.formData();
-		const name = formData.get('name');
 		const price = formData.get('price');
 		const monthly = formData.get('monthly') === 'on';
 		const category = formData.get('category');
-		const dueDate = formData.get('dueDate');
+		const subCategory = formData.get('subCategory');
+
 
 		const newItem = {
-			name,
 			price,
 			monthly,
 			category,
-			createdAt: Timestamp.now(),
-			dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate.toString())) : null
+			subCategory,
+			createdAt: Timestamp.now()
 		};
-		await adminDB.collection(`users/${uid}/transactions`).add(newItem);
+		await adminDB.collection(`users/${uid}/budget`).add(newItem);
 
 		return { status: 'success' };
 	}

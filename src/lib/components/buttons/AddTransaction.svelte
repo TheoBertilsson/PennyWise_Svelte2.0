@@ -2,6 +2,7 @@
 	import DatePicker from '../meltUI/DatePicker.svelte';
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
+	import Select from '../meltUI/Select.svelte';
 	const {
 		elements: { trigger, overlay, content, title, description, close, portalled },
 		states: { open }
@@ -30,14 +31,6 @@
 			<form method="POST" action="?/addTransaction" class="flex flex-col gap-4">
 				<div class="flex flex-col gap-2">
 					<input
-						type="text"
-						id="name"
-						name="name"
-						placeholder="Name"
-						required
-						class="rounded-md p-2"
-					/>
-					<input
 						type="number"
 						id="price"
 						name="price"
@@ -48,19 +41,8 @@
 					/>
 				</div>
 
-				<select name="category" id="category" class="rounded-md p-2">
-					<option value="select" disabled selected>Select Category</option>
-					<option value="savings">Savings</option>
-					<option value="income">Income</option>
-					<option value="food">Food</option>
-					<option value="transport">Transport</option>
-					<option value="housing">Housing</option>
-					<option value="entertainment">Entertainment</option>
-					<option value="subscription">Subscription</option>
-
-					<option value="other">Other</option>
-				</select>
-				<div class="flex items-center justify-center gap-2 ">
+				<Select />
+				<div class="flex items-center justify-center gap-2">
 					<DatePicker />
 					<label for="monthly">Monthly</label>
 					<input type="checkbox" id="monthly" name="monthly" placeholder="Monthly" checked />

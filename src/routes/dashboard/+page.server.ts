@@ -13,6 +13,7 @@ export const load = (async ({ locals }) => {
 		const data = doc.data();
 		return {
 			...data,
+
 			dueDate: data.dueDate?.toDate().toISOString(),
 			createdAt: data.createdAt.toDate().toISOString()
 		};
@@ -33,17 +34,17 @@ export const actions = {
 
 		if (!uid) return error(401, 'Unauthorized');
 		const formData = await request.formData();
-		const name = formData.get('name');
 		const price = formData.get('price');
 		const monthly = formData.get('monthly') === 'on';
 		const category = formData.get('category');
 		const dueDate = formData.get('dueDate');
+		const subCategory = formData.get('subCategory');
 
 		const newItem = {
-			name,
 			price,
 			monthly,
 			category,
+			subCategory,
 			createdAt: Timestamp.now(),
 			dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate.toString())) : null
 		};
