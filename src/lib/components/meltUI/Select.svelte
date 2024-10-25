@@ -9,11 +9,8 @@
 		transport: ['Public transport', 'Uber', 'Car'],
 		housing: ['Rent', 'Mortgage', 'Utilities'],
 		entertainment: ['Movies', 'Concerts', 'Games'],
-		subscription: ['Netflix', 'Spotify', 'Gym', 'Phone']
+		subscription: ['TV', 'Spotify', 'Gym', 'Phone']
 	};
-	let selectedGroup = $derived(
-		Object.keys(options).find((groupName: string) => options[groupName].includes($selectedLabel))
-	);
 	const {
 		elements: { trigger, menu, option, group, groupLabel, label },
 		states: { selectedLabel, open }
@@ -25,6 +22,9 @@
 			sameWidth: true
 		}
 	});
+	let selectedGroup = $derived(
+		Object.keys(options).find((groupName: string) => options[groupName].includes($selectedLabel))
+	);
 </script>
 
 <div class="flex flex-col gap-1">
@@ -51,7 +51,7 @@
 					</div>
 					{#each array as item}
 						<div
-							class="relative cursor-pointer rounded-lg py-1 pl-8 pr-4 text-neutral-800
+							class=" cursor-pointer rounded-lg py-1 pl-8 pr-4 text-neutral-800
 						hover:bg-text/10 focus:z-10
 						focus:text-text/70
 						data-[highlighted]:bg-text/20 data-[highlighted]:text-text/90
