@@ -33,14 +33,18 @@ export const actions = {
 		if (!uid) return error(401, 'Unauthorized');
 		const formData = await request.formData();
 		const price = formData.get('price');
-		const monthly = formData.get('monthly') === 'on';
+		const monthly = formData.get('monthly');
 		const category = formData.get('category');
 		const subCategory = formData.get('subCategory');
+		const isPaid = formData.get('isPaid');
+		const dueDate = formData.get('dueDate');
 
 
 		const newItem = {
 			price,
 			monthly,
+			isPaid,
+			dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate.toString())) : null,
 			category,
 			subCategory,
 			createdAt: Timestamp.now()

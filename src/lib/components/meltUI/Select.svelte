@@ -12,7 +12,7 @@
 		subscription: ['TV', 'Spotify', 'Gym', 'Phone']
 	};
 	const {
-		elements: { trigger, menu, option, group, groupLabel, label },
+		elements: { trigger, menu, option, group, groupLabel },
 		states: { selectedLabel, open }
 	} = createSelect({
 		forceVisible: true,
@@ -34,6 +34,7 @@
 		aria-label="category"
 	>
 		{$selectedLabel || 'Select category'}
+		<img src="/chevronDown.svg" alt="chevron down" />
 	</button>
 	{#if $open}
 		<div
