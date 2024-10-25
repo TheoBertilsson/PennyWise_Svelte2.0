@@ -1,15 +1,15 @@
-import {  adminDB } from '$lib/server/admin.server';
 import { error, redirect, type Actions } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { adminDB } from '$lib/server/admin.server';
 import { Timestamp } from 'firebase-admin/firestore';
+import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
 	if (!uid) return redirect(301, '/login');
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
-	const transactionDoc = await adminDB.collection(`users/${uid}/transactions`).get();
-	const transactions = transactionDoc.docs.map((doc) => {
+	const budgetdoc = await adminDB.collection(`users/${uid}/budgets`).get();
+	const budgetItems = budgetdoc.docs.map((doc) => {
 		const data = doc.data();
 		return {
 			...data,
@@ -22,7 +22,7 @@ export const load = (async ({ locals }) => {
 
 	return {
 		user: userData,
-		transactions
+		budgetItems
 	};
 }) satisfies PageServerLoad;
 
