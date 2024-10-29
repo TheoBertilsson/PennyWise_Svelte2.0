@@ -3,6 +3,7 @@
 	import type { DashboardData } from '$lib/components/models/types';
 	import ReccuringBox from '$lib/components/overviewComponents/ReccuringBox.svelte';
 	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
+	import { getBudgetItems } from '$lib/components/stores/items.svelte';
 
 	interface Props {
 		data: DashboardData;
@@ -10,6 +11,8 @@
 
 	let { data }: Props = $props();
 
+	const budget = getBudgetItems();
+	budget.setBudgetItems(data.budgetItems);
 	const today = new Date();
 	const currentDay = today.getDate();
 	const currentYear = today.getFullYear();
