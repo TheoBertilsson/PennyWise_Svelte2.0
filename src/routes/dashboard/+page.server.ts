@@ -1,26 +1,17 @@
-import {  adminDB } from '$lib/server/admin.server';
+import { adminDB } from '$lib/server/admin.server';
 import { error, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { Timestamp } from 'firebase-admin/firestore';
+import { getTransactions } from '$lib/server/FirebaseData';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
 	if (!uid) return redirect(301, '/login');
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
-	const transactionDoc = await adminDB.collection(`users/${uid}/transactions`).get();
-	const transactions = transactionDoc.docs.map((doc) => {
-		const data = doc.data();
-		return {
-			...data,
-
-			dueDate: data.dueDate?.toDate().toISOString(),
-			createdAt: data.createdAt.toDate().toISOString()
-		};
-	});
+	const transactions = await getTransactions(uid);
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
-
 	return {
 		user: userData,
 		transactions
