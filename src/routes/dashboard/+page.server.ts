@@ -2,19 +2,22 @@ import { adminDB } from '$lib/server/admin.server';
 import { error, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { Timestamp } from 'firebase-admin/firestore';
-import { getTransactions } from '$lib/server/FirebaseData';
+import { getBudgetItems, getTransactions } from '$lib/server/FirebaseData';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
 	if (!uid) return redirect(301, '/login');
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
-	const transactions = await getTransactions(uid);
 	const userData = userDoc.data();
+	const transactions = await getTransactions(uid);
+	const budgetItems = await getBudgetItems(uid);
+
 	if (!userData) throw error(404, 'User not found');
 	return {
 		user: userData,
-		transactions
+		transactions,
+		budgetItems
 	};
 }) satisfies PageServerLoad;
 

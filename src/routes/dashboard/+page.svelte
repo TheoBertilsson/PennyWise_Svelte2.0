@@ -3,9 +3,6 @@
 	import type { DashboardData } from '$lib/components/models/types';
 	import ReccuringBox from '$lib/components/overviewComponents/ReccuringBox.svelte';
 	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
-	import { auth } from '$lib/firebase';
-	import { signOut } from 'firebase/auth';
-	import { onDestroy } from 'svelte';
 
 	interface Props {
 		data: DashboardData;
@@ -15,8 +12,8 @@
 
 	const today = new Date();
 	const currentDay = today.getDate();
-	let currentMonth = today.getMonth();
 	const currentYear = today.getFullYear();
+	let currentMonth = today.getMonth();
 
 	if (currentDay < 25) {
 		currentMonth -= 1;
