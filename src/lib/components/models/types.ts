@@ -26,4 +26,8 @@ export type DashboardData = {
   transactions: Transaction[];
   budgetItems: Budget[];
 }
+export type BudgetData = {
+  budgetItems: Budget[];
+  user: User;
+}
 export type Category = "food" | "transport" | "housing" | "entertainment" | "other" | "income" | "subscripton";

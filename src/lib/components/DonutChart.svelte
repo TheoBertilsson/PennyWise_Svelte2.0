@@ -1,6 +1,15 @@
-<script>
+<script lang=ts>
 	import { quantize, interpolatePlasma, pie, arc } from 'd3';
-	import { getBudgetItems } from './stores/items.svelte';
+	import type { Budget } from './models/types';
+
+	interface Props {
+		budgetItems: Budget[];
+	}
+
+	let { budgetItems }: Props = $props();
+	console.log(budgetItems);
+
+
 	const data = [
 		{ ages: '<18', count: '727432' },
 		{ ages: '18-24', count: '341435' },
@@ -10,9 +19,6 @@
 		{ ages: '55-64', count: '515347' },
 		{ ages: '≥65', count: '629032' }
 	]; // or pass data to component as prop
-
-	const budget = getBudgetItems();
-  console.log(budget.budgetItems);
 
 	const width = 600; // the outer width of the chart, in pixels
 	const height = width; // the outer height of the chart, in pixels
