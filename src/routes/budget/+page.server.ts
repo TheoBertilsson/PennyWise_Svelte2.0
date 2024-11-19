@@ -8,7 +8,7 @@ export const load = (async ({ locals }) => {
 	if (!uid) return redirect(301, '/login');
 
 	const userDoc = await adminDB.collection('users').doc(uid).get();
-	const budgetdoc = await adminDB.collection(`users/${uid}/budgets`).get();
+	const budgetdoc = await adminDB.collection(`users/${uid}/budget`).get();
 	const budgetItems = budgetdoc.docs.map((doc) => {
 		const data = doc.data();
 		return {
@@ -19,6 +19,7 @@ export const load = (async ({ locals }) => {
 	});
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
+ console.log(budgetItems);
 
 	return {
 		user: userData,
@@ -32,7 +33,7 @@ export const actions = {
 
 		if (!uid) return error(401, 'Unauthorized');
 		const formData = await request.formData();
-		const price = formData.get('price');
+		const price = parseFloat(formData.get('price') as string);
 		const monthly = formData.get('monthly');
 		const category = formData.get('category');
 		const subCategory = formData.get('subCategory');

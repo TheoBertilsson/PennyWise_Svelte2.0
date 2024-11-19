@@ -1,5 +1,7 @@
 <script lang="ts">
 	import AddItem from '$lib/components/buttons/AddTransaction.svelte';
+	import DonutChart from '$lib/components/chart/DonutChart.svelte';
+	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
 	import type { DashboardData } from '$lib/components/models/types';
 	import ReccuringBox from '$lib/components/overviewComponents/ReccuringBox.svelte';
 	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
@@ -72,9 +74,13 @@
 				<TransactionBox {expenseTransactions} />
 			</a>
 
-			<a href="/budget" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
-				<span class="text-xl font-semibold">Budget</span>
-			</a>
+			<div class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
+				<a href="/budget" class="text-xl font-semibold ">Budget</a>
+				<div class=" flex justify-center items-center flex-col">
+					<DountChartWithoutLabels budgetItems={data.budgetItems} />
+				</div>
+
+			</div>
 			<a href="/recurring" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
 				<ReccuringBox {monthlyTransactions} />
 			</a>
