@@ -5,10 +5,14 @@
 	interface Props {
 		data: BudgetData;
 	}
+	import BudgetItemsList from '$lib/components/budgetItemsList.svelte';
 
 	let { data }: Props = $props();
-
 </script>
 
-<DonutChart budgetItems={data.budgetItems}/>
+<main class="flex flex-col gap-10">
+	<DonutChart budgetItems={data.budgetItems} />
+	<BudgetItemsList budgetItems={data.budgetItems} />
+</main>
+
 <AddBudgetItem />

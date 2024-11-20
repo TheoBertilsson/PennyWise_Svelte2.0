@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import Chart, {type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
+  import { Chart, type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
 	import type { Budget } from '../models/types';
 	interface Props {
 		budgetItems: Budget[];
@@ -16,7 +16,6 @@
 			.filter(item => item.category === category)
 			.reduce((sum, item) => sum += item.price, 0);
 	});
-	console.log(uniqueCategories, categorySums);
 
   // Define the data structure
   const data: ChartData<'doughnut'> = {

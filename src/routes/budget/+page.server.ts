@@ -4,6 +4,8 @@ import { Timestamp } from 'firebase-admin/firestore';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
+	console.log('load');
+
 	const uid = locals.userID;
 	if (!uid) return redirect(301, '/login');
 

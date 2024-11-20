@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { clickedChartInfo } from '../stores/budgetStores.svelte';
   import { onMount } from 'svelte';
   import Chart, {type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
 	import type { Budget } from '../models/types';
@@ -16,9 +17,7 @@
 			.filter(item => item.category === category)
 			.reduce((sum, item) => sum += item.price, 0);
 	});
-	console.log(uniqueCategories, categorySums);
 
-  // Define the data structure
   const data: ChartData<'doughnut'> = {
 		labels: uniqueCategories.map(category => category.charAt(0).toUpperCase() + category.slice(1)),
     datasets: [
@@ -28,7 +27,6 @@
     ]
   };
 
-  // Define chart options
   const options: ChartOptions<'doughnut'> = {
     responsive: true,
     plugins: {
@@ -38,7 +36,24 @@
     }
   };
 
-  // Lifecycle hook
+  const handleClick = (event: MouseEvent) => {
+    const points = chart.getElementsAtEventForMode(event, "nearest", { intersect: true }, false);
+    if (points.length) {
+      const firstPoint = points[0];
+      const label = chart.data.labels[firstPoint.index];
+      const value = chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+      console.log(`You clicked on ${label} with value ${value}`);
+      clickedChartInfo.budgetCategory = label;
+      clickedChartInfo.budgetSum = value;
+    }
+    else {
+      clickedChartInfo.budgetCategory = undefined;
+      clickedChartInfo.budgetSum = undefined;
+      console.log('You clicked on the chart but not on a slice');
+
+    }
+  };
+
   onMount(() => {
     if (chartRef) {
       const config: ChartConfiguration<'doughnut'> = {
@@ -48,11 +63,12 @@
       };
 
       chart = new Chart(chartRef, config);
+      chart.canvas.addEventListener("click", handleClick);
     }
 
     return () => {
       if (chart) {
-        chart.destroy(); // Cleanup on unmount
+        chart.destroy();
         chart = null;
       }
     };
@@ -70,8 +86,5 @@
     max-width: 500px;
     max-height: 500px;
     position: relative;
-  }
-
-  canvas {
   }
 </style>
