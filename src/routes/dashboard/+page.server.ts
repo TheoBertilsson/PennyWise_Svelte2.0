@@ -24,7 +24,6 @@ export const load = (async ({ locals }) => {
 export const actions = {
 	addTransaction: async ({ request, locals }) => {
 		const uid = locals.userID;
-		console.log('add');
 
 		if (!uid) return error(401, 'Unauthorized');
 		const formData = await request.formData();

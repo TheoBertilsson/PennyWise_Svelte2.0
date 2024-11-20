@@ -42,15 +42,12 @@
       const firstPoint = points[0];
       const label = chart.data.labels[firstPoint.index];
       const value = chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-      console.log(`You clicked on ${label} with value ${value}`);
-      clickedChartInfo.budgetCategory = label;
+      clickedChartInfo.budgetCategory = label.toLowerCase();
       clickedChartInfo.budgetSum = value;
     }
     else {
       clickedChartInfo.budgetCategory = undefined;
       clickedChartInfo.budgetSum = undefined;
-      console.log('You clicked on the chart but not on a slice');
-
     }
   };
 
@@ -85,6 +82,7 @@
     height: 100%;
     max-width: 500px;
     max-height: 500px;
+    min-height: 375px;
     position: relative;
   }
 </style>

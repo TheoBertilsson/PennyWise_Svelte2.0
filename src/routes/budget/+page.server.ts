@@ -4,8 +4,6 @@ import { Timestamp } from 'firebase-admin/firestore';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
-	console.log('load');
-
 	const uid = locals.userID;
 	if (!uid) return redirect(301, '/login');
 
@@ -21,7 +19,6 @@ export const load = (async ({ locals }) => {
 	});
 	const userData = userDoc.data();
 	if (!userData) throw error(404, 'User not found');
- console.log(budgetItems);
 
 	return {
 		user: userData,

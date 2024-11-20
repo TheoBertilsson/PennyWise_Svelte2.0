@@ -13,6 +13,5 @@
 <main class="flex flex-col gap-10">
 	<DonutChart budgetItems={data.budgetItems} />
 	<BudgetItemsList budgetItems={data.budgetItems} />
+	<AddBudgetItem />
 </main>
-
-<AddBudgetItem />
