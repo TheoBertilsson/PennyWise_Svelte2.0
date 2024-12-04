@@ -15,6 +15,7 @@ export type Budget = {
   createdAt: string;
   subCategory: string;
   isPaid: boolean;
+  id: string;
 }
 export type User = {
   uid: string;

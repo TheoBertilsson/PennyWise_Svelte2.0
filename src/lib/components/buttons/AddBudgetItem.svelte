@@ -11,7 +11,7 @@
 	let isPaid = true;
 </script>
 
-<button class=" w-full rounded-lg border-2 border-black bg-white p-4 shadow-md" use:melt={$trigger}>
+<button class="flex justify-center items-center  w-80 rounded-lg border-2 border-black bg-white p-4 shadow-md" use:melt={$trigger}>
 	Add to budget</button
 >
 
@@ -67,15 +67,14 @@
 				<div class="mt-6 flex justify-center gap-4">
 					<button
 						use:melt={$close}
-						class="inline-flex h-8 w-28 items-center justify-center
+						class="inline-flex h-10 w-28 items-center justify-center
 												rounded-lg border-2 border-neutral-500 bg-neutral-500 px-8 py-4 font-medium leading-none text-white hover:text-white/60"
 					>
 						Cancel
 					</button>
 					<button
 						type="submit"
-						class="inline-flex h-8 items-center justify-center
-												rounded-lg border-2 border-neutral-800 bg-white px-8 py-4 font-semibold leading-none text-neutral-800 hover:text-neutral-800/60"
+						class="h-10 w-48 rounded-lg border-2 border-neutral-800 bg-white font-semibold text-neutral-800 hover:text-neutral-800/60"
 					>
 						Add to budget
 					</button>

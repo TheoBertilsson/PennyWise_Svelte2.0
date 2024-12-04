@@ -2,6 +2,7 @@ import { error, redirect, type Actions } from '@sveltejs/kit';
 import { adminDB } from '$lib/server/admin.server';
 import { Timestamp } from 'firebase-admin/firestore';
 import type { PageServerLoad } from './$types';
+import { doc } from 'firebase/firestore';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
@@ -39,7 +40,6 @@ export const actions = {
 		const isPaid = formData.get('isPaid');
 		const dueDate = formData.get('dueDate');
 
-
 		const newItem = {
 			price,
 			monthly,
@@ -49,8 +49,31 @@ export const actions = {
 			subCategory,
 			createdAt: Timestamp.now()
 		};
-		await adminDB.collection(`users/${uid}/budget`).add(newItem);
 
-		return { status: 'success' };
+		const docRef = await adminDB.collection(`users/${uid}/budget`).add(newItem);
+		await docRef.update({ id: docRef.id });
+		return { status: 'success'};
+	},
+	deleteBudgetItem: async ({ request, locals }) => {
+		const uid = locals.userID;
+		if (!uid) {
+			console.error('Unauthorized: No user ID found in locals');
+			return error(401, 'Unauthorized');
+		}
+
+		const formData = await request.formData();
+		const id = formData.get('id');
+
+		if (!id) return error(400, 'Bad Request: No ID provided');
+		try {
+			await adminDB
+				.collection(`users/${uid}/budget`)
+				.doc(id as string)
+				.delete();
+			return { status: 'success' };
+		} catch (err) {
+			console.error(`Failed to delete item with id: ${id}`, err);
+			return error(500, 'Failed to delete item');
+		}
 	}
 } satisfies Actions;

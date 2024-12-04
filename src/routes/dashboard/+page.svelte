@@ -22,26 +22,17 @@
 	const startDate = new Date(currentYear, currentMonth, 24);
 	const endDate = new Date(currentYear, currentMonth + 1, 25);
 
-	const monthlyTransactions = data.transactions.filter((transaction) => {
-		const transactionDate = new Date(transaction.createdAt);
-		return transaction.monthly && transactionDate < endDate;
-	});
-	const filteredTransactions = data.transactions.filter((transaction) => {
-		const transactionDate = new Date(transaction.createdAt);
-		return transactionDate >= startDate && transactionDate < endDate && !transaction.monthly;
-	});
-
-	const currentTransactions = [...monthlyTransactions, ...filteredTransactions];
-	const income = currentTransactions.filter((transaction) => transaction.category === 'income');
-	const expenseTransactions = currentTransactions.filter(
-		(transaction) => transaction.category !== 'income'
-	);
-	const expenseSum = expenseTransactions.reduce(
-		(sum, transaction) => sum + Number(transaction.price),
-		0
-	);
-	const incomeSum = income.reduce((sum, transaction) => sum + Number(transaction.price), 0);
-	const remainingSum = incomeSum - expenseSum;
+	const monthlyBudget = data.budgetItems.filter((item)=>{
+		if (item.dueDate) {
+		const dueDate = new Date(item.dueDate);
+		return !item.monthly && dueDate >= startDate && dueDate < endDate;}
+		if (item.monthly) {
+			return item;
+		}
+	})
+	const budgetExpense = monthlyBudget.filter((item) => item.category !== 'income').reduce((sum, item) => sum + Number(item.price), 0);
+	const budgetIncome = monthlyBudget.filter((item) => item.category === 'income').reduce((sum, item) => sum + Number(item.price), 0);
+	const remainingSum = budgetIncome - budgetExpense;
 </script>
 
 <main class="flex w-full">
@@ -49,37 +40,35 @@
 		<h1 class="text-3xl font-bold">Welcome, {data.user.displayName}!</h1>
 		<div class="flex flex-col justify-between gap-4">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
-				<span class=" text-white">Current balance</span>
+				<span class=" text-white">Current budget</span>
 				<span class="text-3xl font-bold text-white">{remainingSum}$</span>
 			</div>
 			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
 				<span class="text-text">Income</span>
-				<span class="text-3xl font-bold">{incomeSum}$</span>
+				<span class="text-3xl font-bold">{budgetIncome}$</span>
 			</div>
 			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
 				<span class="text-text">Expenses</span>
-				<span class="text-3xl font-bold">-{expenseSum}$</span>
+				<span class="text-3xl font-bold">-{budgetExpense}$</span>
 			</div>
 		</div>
-		<AddItem />
 		<div class="flex w-full flex-col gap-4 pb-4">
+			<!--
+			<a href="/transaction" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
+				<TransactionBox {expenseTransactions} />
+			</a> -->
+			<div class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
+				<a href="/budget" class="text-xl font-semibold">Budget</a>
+				<div class=" flex flex-col items-center justify-center">
+					<DountChartWithoutLabels budgetItems={data.budgetItems} />
+				</div>
+			</div>
 			<a href="/savings" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
 				<span class="text-xl font-semibold">Savings</span>
 			</a>
-			<a href="/transaction" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
-				<TransactionBox {expenseTransactions} />
-			</a>
-
-			<div class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
-				<a href="/budget" class="text-xl font-semibold ">Budget</a>
-				<div class=" flex justify-center items-center flex-col">
-					<DountChartWithoutLabels budgetItems={data.budgetItems} />
-				</div>
-
-			</div>
-			<a href="/recurring" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
-				<ReccuringBox {monthlyTransactions} />
-			</a>
+			<!-- <a href="/recurring" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
+				<ReccuringBox {monthlyBudget} />
+			</a> -->
 		</div>
 	</div>
 </main>

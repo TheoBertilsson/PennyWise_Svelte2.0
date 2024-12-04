@@ -75,7 +75,6 @@
 <div class="chart-container">
   <canvas bind:this={chartRef}></canvas>
 </div>
-
 <style>
   .chart-container {
     width: 100%;
