@@ -6,7 +6,8 @@
   }
   let { budgetItems }: Props = $props();
 </script>
-<div class="flex w-full justify-between">
+{#if clickedChartInfo.budgetCategory === 'income'}
+<div class="flex w-full justify-center gap-4">
   <span class=" text-lg font-bold capitalize underline"
     >{clickedChartInfo.budgetCategory}</span
   >
@@ -14,7 +15,16 @@
     >{clickedChartInfo.budgetSum?.toLocaleString()} kr</span
   >
 </div>
-
+{:else}
+<div class="flex w-full justify-center gap-4">
+  <span class=" text-lg font-bold capitalize underline"
+    >{clickedChartInfo.budgetCategory}</span
+  >
+  <span class=" text-lg font-bold underline"
+    >{clickedChartInfo.budgetSum?.toLocaleString()} kr</span
+  >
+</div>
+{/if}
 {#each budgetItems.filter((item) => item.category === clickedChartInfo.budgetCategory) as item}
   <div class="flex w-full justify-between border-b-2 border-[#0000070]">
     <span class="font-bold">{item.subCategory}</span>

@@ -22,16 +22,21 @@
 	const startDate = new Date(currentYear, currentMonth, 24);
 	const endDate = new Date(currentYear, currentMonth + 1, 25);
 
-	const monthlyBudget = data.budgetItems.filter((item)=>{
+	const monthlyBudget = data.budgetItems.filter((item) => {
 		if (item.dueDate) {
-		const dueDate = new Date(item.dueDate);
-		return !item.monthly && dueDate >= startDate && dueDate < endDate;}
+			const dueDate = new Date(item.dueDate);
+			return !item.monthly && dueDate >= startDate && dueDate < endDate;
+		}
 		if (item.monthly) {
 			return item;
 		}
-	})
-	const budgetExpense = monthlyBudget.filter((item) => item.category !== 'income').reduce((sum, item) => sum + Number(item.price), 0);
-	const budgetIncome = monthlyBudget.filter((item) => item.category === 'income').reduce((sum, item) => sum + Number(item.price), 0);
+	});
+	const budgetExpense = monthlyBudget
+		.filter((item) => item.category !== 'income')
+		.reduce((sum, item) => sum + Number(item.price), 0);
+	const budgetIncome = monthlyBudget
+		.filter((item) => item.category === 'income')
+		.reduce((sum, item) => sum + Number(item.price), 0);
 	const remainingSum = budgetIncome - budgetExpense;
 </script>
 
@@ -60,7 +65,13 @@
 			<div class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<a href="/budget" class="text-xl font-semibold">Budget</a>
 				<div class=" flex flex-col items-center justify-center">
-					<DountChartWithoutLabels budgetItems={data.budgetItems} />
+					{#if !data.budgetItems.length}
+						<span class="p-8 text-center text-lg"
+							>This months budget is empty, add an item to start budgeting</span
+						>
+					{:else}
+						<DountChartWithoutLabels budgetItems={data.budgetItems} />
+					{/if}
 				</div>
 			</div>
 			<a href="/savings" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
