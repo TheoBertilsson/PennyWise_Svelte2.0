@@ -3,6 +3,7 @@
 	import DonutChart from '$lib/components/chart/DonutChart.svelte';
 	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
 	import type { DashboardData } from '$lib/components/models/types';
+	import MobileNav from '$lib/components/navBar/MobileNav.svelte';
 	import ReccuringBox from '$lib/components/overviewComponents/ReccuringBox.svelte';
 	import TransactionBox from '$lib/components/overviewComponents/TransactionBox.svelte';
 
@@ -83,3 +84,4 @@
 		</div>
 	</div>
 </main>
+<MobileNav/>

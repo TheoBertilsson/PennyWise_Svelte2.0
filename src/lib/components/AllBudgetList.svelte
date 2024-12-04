@@ -15,8 +15,14 @@
 </script>
 
 <div class="flex w-full items-center justify-between">
-	<span class="text-lg font-bold underline">Income: {totalIncome.toLocaleString()}kr</span>
-	<span class=" text-lg font-bold underline">Expenses: {totalExpense.toLocaleString()}kr</span>
+	<div class="flex flex-col items-center justify-center">
+		<span class="text-lg font-bold underline">Income:</span>
+		<span >{totalIncome.toLocaleString()} kr</span>
+	</div>
+	<div class="flex flex-col items-center justify-center">
+		<span class="text-lg font-bold underline">Expense:</span>
+		<span >{totalExpense.toLocaleString()} kr</span>
+	</div>
 </div>
 
 {#each budgetItems as item}
