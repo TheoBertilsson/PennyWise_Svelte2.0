@@ -1,67 +1,79 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { Chart, type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
+	import { onMount } from 'svelte';
+	import { Chart, type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
 	import type { Budget } from '../models/types';
 	interface Props {
 		budgetItems: Budget[];
+		startDate: Date;
+		endDate: Date;
 	}
 
-	let { budgetItems }: Props = $props();
-  let chart: Chart<'doughnut', number[], unknown> | null = null;
-  let chartRef: HTMLCanvasElement | null = null;
+	let { budgetItems, startDate, endDate }: Props = $props();
+	let chart: Chart<'doughnut', number[], unknown> | null = null;
+	let chartRef: HTMLCanvasElement | null = null;
 
 	const uniqueCategories = Array.from(new Set(budgetItems.map((item) => item.category)));
-	const categorySums = uniqueCategories.map(category => {
+	const categorySums = uniqueCategories.map((category) => {
 		return budgetItems
-			.filter(item => item.category === category)
-			.reduce((sum, item) => sum += item.price, 0);
+			.filter((item) => {
+				if (item.category === category) {
+					const createdDate = new Date(item.createdAt);
+					if (item.dueDate) {
+						const dueDate = new Date(item.dueDate);
+						return dueDate >= startDate && dueDate <= endDate;
+					} else {
+						return createdDate >= startDate && createdDate <= endDate;
+					}
+				}
+			})
+			.reduce((sum, item) => (sum += item.price), 0);
 	});
+	// Define the data structure
+	const data: ChartData<'doughnut'> = {
+		labels: uniqueCategories.map(
+			(category) => category.charAt(0).toUpperCase() + category.slice(1)
+		),
+		datasets: [
+			{
+				data: categorySums
+			}
+		]
+	};
 
-  // Define the data structure
-  const data: ChartData<'doughnut'> = {
-		labels: uniqueCategories.map(category => category.charAt(0).toUpperCase() + category.slice(1)),
-    datasets: [
-      {
-        data: categorySums,
-      }
-    ]
-  };
+	// Define chart options
+	const options: ChartOptions<'doughnut'> = {
+		responsive: true,
+		plugins: {
+			legend: {
+				display: false
+			}
+		}
+	};
 
-  // Define chart options
-  const options: ChartOptions<'doughnut'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false
-      }
-    }
-  };
+	// Lifecycle hook
+	onMount(() => {
+		if (chartRef) {
+			const config: ChartConfiguration<'doughnut'> = {
+				type: 'doughnut',
+				data,
+				options
+			};
 
-  // Lifecycle hook
-  onMount(() => {
-    if (chartRef) {
-      const config: ChartConfiguration<'doughnut'> = {
-        type: 'doughnut',
-        data,
-        options
-      };
+			chart = new Chart(chartRef, config);
+		}
 
-      chart = new Chart(chartRef, config);
-    }
-
-    return () => {
-      if (chart) {
-        chart.destroy(); // Cleanup on unmount
-        chart = null;
-      }
-    };
-  });
+		return () => {
+			if (chart) {
+				chart.destroy(); // Cleanup on unmount
+				chart = null;
+			}
+		};
+	});
 </script>
 
-<div class="chart-container max-h-60 max-w-60 relative ">
-  <canvas bind:this={chartRef}></canvas>
+<div class="chart-container relative max-h-60 max-w-60">
+	<canvas bind:this={chartRef}></canvas>
 </div>
 
 <style>
-
 </style>

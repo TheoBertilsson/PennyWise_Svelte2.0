@@ -24,13 +24,16 @@
 	const endDate = new Date(currentYear, currentMonth + 1, 25);
 
 	const monthlyBudget = data.budgetItems.filter((item) => {
+		const createdDate = new Date(item.createdAt);
 		if (item.dueDate) {
 			const dueDate = new Date(item.dueDate);
-			return !item.monthly && dueDate >= startDate && dueDate < endDate;
+			return (
+			(dueDate >= startDate && dueDate <= endDate)
+		);
+		} else {
+			return createdDate >= startDate && createdDate <= endDate;
 		}
-		if (item.monthly) {
-			return item;
-		}
+
 	});
 	const budgetExpense = monthlyBudget
 		.filter((item) => item.category !== 'income')
@@ -46,7 +49,7 @@
 		<h1 class="text-3xl font-bold">Welcome, {data.user.displayName}!</h1>
 		<div class="flex flex-col justify-between gap-4">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
-				<span class=" text-white">Current budget</span>
+				<span class=" text-white">Remaining</span>
 				<span class="text-3xl font-bold text-white">{remainingSum}$</span>
 			</div>
 			<div class="flex w-full flex-col rounded-lg bg-white p-4 shadow-md">
@@ -59,10 +62,6 @@
 			</div>
 		</div>
 		<div class="flex w-full flex-col gap-4 pb-4">
-			<!--
-			<a href="/transaction" class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
-				<TransactionBox {expenseTransactions} />
-			</a> -->
 			<div class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<a href="/budget" class="text-xl font-semibold">Budget</a>
 				<div class=" flex flex-col items-center justify-center">
@@ -71,17 +70,14 @@
 							>This months budget is empty, add an item to start budgeting</span
 						>
 					{:else}
-						<DountChartWithoutLabels budgetItems={data.budgetItems} />
+						<DountChartWithoutLabels budgetItems={data.budgetItems} {startDate} {endDate} />
 					{/if}
 				</div>
 			</div>
 			<a href="/savings" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
 				<span class="text-xl font-semibold">Savings</span>
 			</a>
-			<!-- <a href="/recurring" class="relative min-h-36 rounded-lg bg-white p-4 shadow-md">
-				<ReccuringBox {monthlyBudget} />
-			</a> -->
 		</div>
 	</div>
 </main>
-<MobileNav/>
+<MobileNav />

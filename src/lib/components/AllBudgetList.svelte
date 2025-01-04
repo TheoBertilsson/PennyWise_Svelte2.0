@@ -1,15 +1,25 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
-	import { clickedChartInfo } from './stores/budgetStores.svelte';
 	interface Props {
 		budgetItems: Budget[];
+		startDate: Date;
+		endDate: Date;
 	}
 
-	let { budgetItems }: Props = $props();
-	const totalExpense = budgetItems
+	let { budgetItems, startDate, endDate }: Props = $props();
+	const monthlyBudget = budgetItems.filter((item) => {
+		const createdDate = new Date(item.createdAt);
+		if (item.dueDate) {
+			const dueDate = new Date(item.dueDate);
+			return dueDate >= startDate && dueDate <= endDate;
+		} else {
+			return createdDate >= startDate && createdDate <= endDate;
+		}
+	});
+	const totalExpense = monthlyBudget
 		.filter((item) => item.category !== 'income')
 		.reduce((sum, item) => (sum += item.price), 0);
-	const totalIncome = budgetItems
+	const totalIncome = monthlyBudget
 		.filter((item) => item.category === 'income')
 		.reduce((sum, item) => (sum += item.price), 0);
 </script>
@@ -17,15 +27,15 @@
 <div class="flex w-full items-center justify-between">
 	<div class="flex flex-col items-center justify-center">
 		<span class="text-lg font-bold underline">Income:</span>
-		<span >{totalIncome.toLocaleString()} kr</span>
+		<span>{totalIncome.toLocaleString()} kr</span>
 	</div>
 	<div class="flex flex-col items-center justify-center">
 		<span class="text-lg font-bold underline">Expense:</span>
-		<span >{totalExpense.toLocaleString()} kr</span>
+		<span>{totalExpense.toLocaleString()} kr</span>
 	</div>
 </div>
 
-{#each budgetItems as item}
+{#each monthlyBudget as item}
 	<form
 		method="POST"
 		action="?/deleteBudgetItem"
