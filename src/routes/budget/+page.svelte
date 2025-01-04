@@ -23,8 +23,8 @@
 	const endDate = new Date(currentYear, currentMonth + 1, 25);
 </script>
 
-<main class="flex h-[100vh] flex-col items-center justify-start gap-2">
-	<div class="flex h-[100vh] w-full flex-col items-center justify-start gap-2 p-4">
+<main class="flex h-full flex-col items-center justify-start gap-2">
+	<div class="flex h-full w-full flex-col items-center justify-between gap-6 p-4">
 		{#if !data.budgetItems.length}
 			<span class="p-8 text-center text-lg"
 				>This months budget is empty, add an item to start budgeting</span
@@ -42,4 +42,3 @@
 		<AddBudgetItem />
 	</div>
 </main>
-<MobileNav />

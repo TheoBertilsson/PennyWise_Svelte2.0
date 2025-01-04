@@ -27,13 +27,10 @@
 		const createdDate = new Date(item.createdAt);
 		if (item.dueDate) {
 			const dueDate = new Date(item.dueDate);
-			return (
-			(dueDate >= startDate && dueDate <= endDate)
-		);
+			return dueDate >= startDate && dueDate <= endDate;
 		} else {
 			return createdDate >= startDate && createdDate <= endDate;
 		}
-
 	});
 	const budgetExpense = monthlyBudget
 		.filter((item) => item.category !== 'income')
@@ -45,7 +42,7 @@
 </script>
 
 <main class="flex w-full">
-	<div class="flex h-screen w-full flex-col gap-8 p-5">
+	<div class="flex h-full w-full flex-col gap-8 p-5 mb-12">
 		<h1 class="text-3xl font-bold">Welcome, {data.user.displayName}!</h1>
 		<div class="flex flex-col justify-between gap-4">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
@@ -80,4 +77,3 @@
 		</div>
 	</div>
 </main>
-<MobileNav />

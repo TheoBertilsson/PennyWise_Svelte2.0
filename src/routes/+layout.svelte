@@ -1,5 +1,7 @@
 <script lang="ts">
-import '../app.css';
-
+	import MobileNav from '$lib/components/navBar/MobileNav.svelte';
+	import '../app.css';
 </script>
-<slot/>
+
+<slot />
+<MobileNav />

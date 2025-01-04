@@ -55,7 +55,7 @@
 		if (points?.length) {
 			const firstPoint = points[0];
       if (!chart || !chart.data.labels) return;
-			const label = chart?.data.labels[firstPoint.index];
+			const label = chart?.data.labels[firstPoint.index] as string;
 			const value = chart?.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
 			clickedChartInfo.budgetCategory = label.toLowerCase();
 			clickedChartInfo.budgetSum = value;
@@ -86,17 +86,9 @@
 	});
 </script>
 
-<div class="chart-container">
-	<canvas bind:this={chartRef}></canvas>
+<div class="chart-container max-w-[500px] max-h-[500px] min-h-[375px] relative">
+	<canvas bind:this={chartRef} class="w-[350px] h-[350px]"></canvas>
 </div>
 
 <style>
-	.chart-container {
-		width: 100%;
-		height: 100%;
-		max-width: 500px;
-		max-height: 500px;
-		min-height: 375px;
-		position: relative;
-	}
 </style>
