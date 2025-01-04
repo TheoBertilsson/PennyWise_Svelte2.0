@@ -7,21 +7,32 @@
 	}
 
 	let { budgetItems, startDate, endDate }: Props = $props();
-	const monthlyBudget = budgetItems.filter((item) => {
-		const createdDate = new Date(item.createdAt);
-		if (item.dueDate) {
-			const dueDate = new Date(item.dueDate);
-			return dueDate >= startDate && dueDate <= endDate;
-		} else {
-			return createdDate >= startDate && createdDate <= endDate;
-		}
-	});
-	const totalExpense = monthlyBudget
-		.filter((item) => item.category !== 'income')
-		.reduce((sum, item) => (sum += item.price), 0);
-	const totalIncome = monthlyBudget
-		.filter((item) => item.category === 'income')
-		.reduce((sum, item) => (sum += item.price), 0);
+	const { monthlyBudget } = budgetItems.reduce(
+		(acc: { monthlyBudget: Budget[] }, item: Budget) => {
+			const createdDate = new Date(item.createdAt);
+			const isWithinDateRange = item.dueDate
+				? new Date(item.dueDate) >= startDate && new Date(item.dueDate) <= endDate
+				: createdDate >= startDate && createdDate <= endDate;
+
+			if (isWithinDateRange) {
+				acc.monthlyBudget.push(item);
+			}
+			return acc;
+		},
+		{ monthlyBudget: [] }
+	);
+
+	const { totalExpense, totalIncome } = monthlyBudget.reduce(
+		(acc, item) => {
+			if (item.category === 'income') {
+				acc.totalIncome += item.price;
+			} else {
+				acc.totalExpense += item.price;
+			}
+			return acc;
+		},
+		{ totalExpense: 0, totalIncome: 0 }
+	);
 </script>
 
 <div class="flex w-full items-center justify-between px-4">
@@ -39,10 +50,10 @@
 	<form
 		method="POST"
 		action="?/deleteBudgetItem"
-		class="flex w-full justify-between border-b-2 border-[#0000070]"
+		class="flex w-full justify-between border-b-2 border-opacity-10 border-black"
 	>
 		<input type="hidden" name="id" value={item.id} />
-		<span class="font-semibold">{item.subCategory}</span>
+		<span class="font-semibold pb-1">{item.subCategory}</span>
 
 		<div class="flex gap-2">
 			<span>{item.price.toLocaleString()} kr</span>
