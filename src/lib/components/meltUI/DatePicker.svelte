@@ -45,7 +45,7 @@
         {/each}
       {/key}
       <div>
-        <button use:melt={$trigger}>
+        <button type="button" use:melt={$trigger}>
           IMG
         </button>
       </div>
