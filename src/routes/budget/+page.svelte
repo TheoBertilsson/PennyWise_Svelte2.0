@@ -9,7 +9,7 @@
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
 
 	interface Props {
-		data: BudgetData
+		data: BudgetData;
 	}
 
 	let { data }: Props = $props();
@@ -17,18 +17,17 @@
 		setBudget(data.budgetItems);
 	}
 	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly items found');
-
 </script>
 
-<main class="flex h-full flex-col items-center justify-start gap-2 mb-16">
-	<MonthSlider budgetItems={data.budgetItems} />
+<main class="mb-16 flex h-full flex-col items-center justify-start gap-2 w-full">
 	<div class="flex h-full w-full flex-col items-center justify-between gap-6 p-4">
+		<MonthSlider budgetItems={data.budgetItems} />
 		{#if !data.budgetItems.length}
 			<span class="p-8 text-center text-lg"
 				>This months budget is empty, add an item to start budgeting</span
 			>
 		{:else}
-			<DonutChart/>
+			<DonutChart />
 			<div class="flex w-full flex-col items-center justify-center gap-2 px-5">
 				{#if !clickedChartInfo.budgetCategory}
 					<BudgetItemsList />

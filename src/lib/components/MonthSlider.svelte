@@ -26,7 +26,7 @@
 	}
 </script>
 
-<div class="flex items-center justify-between">
+<div class="flex items-center justify-between gap-6 max-w-[270px]">
 	<button onclick={subtractOneMonth}>&lt;</button>
 	<div>
 		<span

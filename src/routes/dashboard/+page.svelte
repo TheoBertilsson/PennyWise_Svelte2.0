@@ -22,10 +22,10 @@
 </script>
 
 <main class="flex w-full">
-	<div class="mb-12 flex h-full w-full flex-col gap-8 p-5">
+	<div class="mb-12 flex h-full w-full flex-col gap-6 p-5 items-center justify-center">
 		<h1 class="text-3xl font-bold">{data.user.displayName.split(' ')[0]}s Budget!</h1>
 		<MonthSlider budgetItems={data.budgetItems} />
-		<div class="flex flex-col justify-between gap-4">
+		<div class="flex flex-col justify-between gap-4 w-full">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
 				<span class=" text-white">Remaining</span>
 				<span class="text-3xl font-bold text-white">{budgetSums.expenses}$</span>
