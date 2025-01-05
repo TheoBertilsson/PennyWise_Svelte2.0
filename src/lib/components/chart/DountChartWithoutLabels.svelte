@@ -2,13 +2,12 @@
 	import { onMount } from 'svelte';
 	import { Chart, type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
 	import type { Budget } from '../models/types';
+	import { currentDateIntervall } from '../stores/budgetStores.svelte';
 	interface Props {
 		budgetItems: Budget[];
-		startDate: Date;
-		endDate: Date;
 	}
 
-	let { budgetItems, startDate, endDate }: Props = $props();
+	let { budgetItems }: Props = $props();
 	let chart: Chart<'doughnut', number[], unknown> | null = null;
 	let chartRef: HTMLCanvasElement | null = null;
 
@@ -20,9 +19,9 @@
 					const createdDate = new Date(item.createdAt);
 					if (item.dueDate) {
 						const dueDate = new Date(item.dueDate);
-						return dueDate >= startDate && dueDate <= endDate;
+						return dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate;
 					} else {
-						return createdDate >= startDate && createdDate <= endDate;
+						return createdDate >= currentDateIntervall.startDate && createdDate <= currentDateIntervall.endDate;
 					}
 				}
 			})

@@ -2,25 +2,21 @@
 	import AddBudgetItem from '$lib/components/buttons/AddBudgetItem.svelte';
 	import DonutChart from '$lib/components/chart/DonutChart.svelte';
 	import type { BudgetData } from '$lib/components/models/types';
-	import { clickedChartInfo } from '$lib/components/stores/budgetStores.svelte';
-	import MobileNav from '$lib/components/navBar/MobileNav.svelte';
+	import { clickedChartInfo, monthlyBudgetItems } from '$lib/components/stores/budgetStores.svelte';
+	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
+	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
+	import { getMonthlyBudgetItems } from '$lib/components/functions';
+
 	interface Props {
 		data: BudgetData
 	}
-	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
-	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
 
 	let { data }: Props = $props();
-	const today = new Date();
-	const currentDay = today.getDate();
-	const currentYear = today.getFullYear();
-	let currentMonth = today.getMonth();
-
-	if (currentDay < 25) {
-		currentMonth -= 1;
+	if (!monthlyBudgetItems.monthItems) {
+		monthlyBudgetItems.monthItems = getMonthlyBudgetItems(data.budgetItems);
 	}
-	const startDate = new Date(currentYear, currentMonth, 24);
-	const endDate = new Date(currentYear, currentMonth + 1, 25);
+	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly items found');
+
 </script>
 
 <main class="flex h-full flex-col items-center justify-start gap-2">
@@ -30,12 +26,12 @@
 				>This months budget is empty, add an item to start budgeting</span
 			>
 		{:else}
-			<DonutChart budgetItems={data.budgetItems} {startDate} {endDate}/>
+			<DonutChart budgetItems={data.budgetItems}/>
 			<div class="flex w-full flex-col items-center justify-center gap-2 px-5">
 				{#if !clickedChartInfo.budgetCategory}
-					<BudgetItemsList budgetItems={data.budgetItems} {startDate} {endDate} />
+					<BudgetItemsList budgetItems={data.budgetItems} />
 				{:else if clickedChartInfo.budgetCategory && clickedChartInfo.budgetSum}
-					<CategoryBudgetList budgetItems={data.budgetItems} {startDate} {endDate} />
+					<CategoryBudgetList />
 				{/if}
 			</div>
 		{/if}

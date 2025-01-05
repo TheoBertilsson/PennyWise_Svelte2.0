@@ -1,21 +1,5 @@
 <script lang="ts">
-	import { clickedChartInfo } from './stores/budgetStores.svelte';
-	import type { Budget } from './models/types';
-	interface Props {
-		budgetItems: Budget[];
-		startDate: Date;
-		endDate: Date;
-	}
-	let { budgetItems, startDate, endDate }: Props = $props();
-	const monthlyBudget = budgetItems.filter((item) => {
-		const createdDate = new Date(item.createdAt);
-		if (item.dueDate) {
-			const dueDate = new Date(item.dueDate);
-			return dueDate >= startDate && dueDate <= endDate;
-		} else {
-			return createdDate >= startDate && createdDate <= endDate;
-		}
-	});
+	import { clickedChartInfo, monthlyBudgetItems } from './stores/budgetStores.svelte';
 
 </script>
 
@@ -34,8 +18,8 @@
 		>
 	</div>
 {/if}
-{#each monthlyBudget.filter((item) => item.category === clickedChartInfo.budgetCategory) as item}
-	<div class="flex w-full justify-between border-b-2 border-[#0000070]">
+{#each monthlyBudgetItems.monthItems!.filter((item) => item.category === clickedChartInfo.budgetCategory) as item}
+	<div class="flex w-full justify-between border-b-2 border-opacity-10 border-black">
 		<span class="font-bold">{item.subCategory}</span>
 		<h3>{item.price.toLocaleString()} kr</h3>
 	</div>

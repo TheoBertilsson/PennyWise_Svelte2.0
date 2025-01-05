@@ -1,18 +1,17 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
+	import { currentDateIntervall } from './stores/budgetStores.svelte';
 	interface Props {
 		budgetItems: Budget[];
-		startDate: Date;
-		endDate: Date;
 	}
 
-	let { budgetItems, startDate, endDate }: Props = $props();
+	let { budgetItems }: Props = $props();
 	const { monthlyBudget } = budgetItems.reduce(
 		(acc: { monthlyBudget: Budget[] }, item: Budget) => {
 			const createdDate = new Date(item.createdAt);
 			const isWithinDateRange = item.dueDate
-				? new Date(item.dueDate) >= startDate && new Date(item.dueDate) <= endDate
-				: createdDate >= startDate && createdDate <= endDate;
+				? new Date(item.dueDate) >= currentDateIntervall.startDate && new Date(item.dueDate) <= currentDateIntervall.endDate
+				: createdDate >= currentDateIntervall.startDate && createdDate <= currentDateIntervall.endDate;
 
 			if (isWithinDateRange) {
 				acc.monthlyBudget.push(item);
