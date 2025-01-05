@@ -80,12 +80,12 @@
 			<div class="relative min-h-52 rounded-lg bg-white p-4 shadow-md">
 				<a href="/budget" class="text-xl font-semibold">Budget</a>
 				<div class=" flex flex-col items-center justify-center">
-					{#if !data.budgetItems.length}
+					{#if monthlyBudgetItems.monthItems?.length === 0}
 						<span class="p-8 text-center text-lg"
 							>This months budget is empty, add an item to start budgeting</span
 						>
 					{:else}
-						<DountChartWithoutLabels budgetItems={data.budgetItems} />
+						<DountChartWithoutLabels/>
 					{/if}
 				</div>
 			</div>

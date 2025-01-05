@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clickedChartInfo, currentDateIntervall } from '../stores/budgetStores.svelte';
+	import { clickedChartInfo, currentDateIntervall, monthlyBudgetItems } from '../stores/budgetStores.svelte';
 	import { onMount } from 'svelte';
 	import Chart, { type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
 	import type { Budget } from '../models/types';
@@ -11,33 +11,35 @@
 	let chart: Chart<'doughnut', number[], unknown> | null = null;
 	let chartRef: HTMLCanvasElement | null = null;
 
-	const uniqueCategories = Array.from(new Set(budgetItems.map((item) => item.category)));
-	const categorySums = uniqueCategories.map((category) => {
-		return budgetItems
-			.filter((item) => {
-				if (item.category === category) {
-					const createdDate = new Date(item.createdAt);
-					if (item.dueDate) {
-						const dueDate = new Date(item.dueDate);
-						return dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate;
-					} else {
-						return createdDate >= currentDateIntervall.startDate && createdDate <= currentDateIntervall.endDate;
+  function calculateChartData() {
+		const uniqueCategories = Array.from(new Set(monthlyBudgetItems?.monthItems?.map((item) => item.category) || []));
+		const categorySums = uniqueCategories.map((category) => {
+			return (monthlyBudgetItems?.monthItems || [])
+				.filter((item) => {
+					if (item.category === category) {
+						const createdDate = new Date(item.createdAt);
+						if (item.dueDate) {
+							const dueDate = new Date(item.dueDate);
+							return dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate;
+						} else {
+							return createdDate >= currentDateIntervall.startDate && createdDate <= currentDateIntervall.endDate;
+						}
 					}
-				}
-			})
-			.reduce((sum, item) => (sum += item.price), 0);
-	});
+				})
+				.reduce((sum, item) => (sum += item.price), 0);
+		});
 
-	const data: ChartData<'doughnut'> = {
-		labels: uniqueCategories.map(
-			(category) => category.charAt(0).toUpperCase() + category.slice(1)
-		),
-		datasets: [
-			{
-				data: categorySums
-			}
-		]
-	};
+		return {
+			labels: uniqueCategories.map(
+				(category) => category.charAt(0).toUpperCase() + category.slice(1)
+			),
+			datasets: [
+				{
+					data: categorySums
+				}
+			]
+		};
+	}
 
 	const options: ChartOptions<'doughnut'> = {
 		responsive: true,
@@ -67,7 +69,7 @@
 		if (chartRef) {
 			const config: ChartConfiguration<'doughnut'> = {
 				type: 'doughnut',
-				data,
+				data: calculateChartData(),
 				options
 			};
 
