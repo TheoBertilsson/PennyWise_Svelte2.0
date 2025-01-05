@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
-	import { currentDateIntervall } from './stores/budgetStores.svelte';
+	import { budgetSums, currentDateIntervall } from './stores/budgetStores.svelte';
 	interface Props {
 		budgetItems: Budget[];
 	}
@@ -20,28 +20,16 @@
 		},
 		{ monthlyBudget: [] }
 	);
-
-	const { totalExpense, totalIncome } = monthlyBudget.reduce(
-		(acc, item) => {
-			if (item.category === 'income') {
-				acc.totalIncome += item.price;
-			} else {
-				acc.totalExpense += item.price;
-			}
-			return acc;
-		},
-		{ totalExpense: 0, totalIncome: 0 }
-	);
 </script>
 
 <div class="flex w-full items-center justify-between px-4">
 	<div class="flex flex-col items-center justify-center">
 		<span class="text-lg font-bold underline">Income:</span>
-		<span>{totalIncome.toLocaleString()} kr</span>
+		<span>{budgetSums.income.toLocaleString()} kr</span>
 	</div>
 	<div class="flex flex-col items-center justify-center">
 		<span class="text-lg font-bold underline">Expense:</span>
-		<span>{totalExpense.toLocaleString()} kr</span>
+		<span>{budgetSums.expenses.toLocaleString()} kr</span>
 	</div>
 </div>
 

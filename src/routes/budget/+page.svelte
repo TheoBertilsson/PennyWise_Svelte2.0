@@ -5,7 +5,7 @@
 	import { clickedChartInfo, monthlyBudgetItems } from '$lib/components/stores/budgetStores.svelte';
 	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
 	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
-	import { getMonthlyBudgetItems } from '$lib/components/functions';
+	import { setBudget } from '$lib/components/functions';
 
 	interface Props {
 		data: BudgetData
@@ -13,13 +13,13 @@
 
 	let { data }: Props = $props();
 	if (!monthlyBudgetItems.monthItems) {
-		monthlyBudgetItems.monthItems = getMonthlyBudgetItems(data.budgetItems);
+		setBudget(data.budgetItems);
 	}
 	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly items found');
 
 </script>
 
-<main class="flex h-full flex-col items-center justify-start gap-2">
+<main class="flex h-full flex-col items-center justify-start gap-2 mb-16">
 	<div class="flex h-full w-full flex-col items-center justify-between gap-6 p-4">
 		{#if !data.budgetItems.length}
 			<span class="p-8 text-center text-lg"

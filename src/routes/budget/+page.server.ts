@@ -2,7 +2,6 @@ import { error, redirect, type Actions } from '@sveltejs/kit';
 import { adminDB } from '$lib/server/admin.server';
 import { Timestamp } from 'firebase-admin/firestore';
 import type { PageServerLoad } from './$types';
-import { doc } from 'firebase/firestore';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
