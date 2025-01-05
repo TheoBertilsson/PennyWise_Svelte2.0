@@ -7,6 +7,16 @@ export type Transaction = {
   category: Category;
   createdAt: string;
 }
+export type Budget = {
+  price: number;
+  monthly: boolean;
+  dueDate?: string;
+  category: Category;
+  createdAt: string;
+  subCategory: string;
+  isPaid: boolean;
+  id: string;
+}
 export type User = {
   uid: string;
   email: string;
@@ -15,5 +25,10 @@ export type User = {
 export type DashboardData = {
   user: User;
   transactions: Transaction[];
+  budgetItems: Budget[];
+}
+export type BudgetData = {
+  budgetItems: Budget[];
+  user: User;
 }
 export type Category = "food" | "transport" | "housing" | "entertainment" | "other" | "income" | "subscripton";

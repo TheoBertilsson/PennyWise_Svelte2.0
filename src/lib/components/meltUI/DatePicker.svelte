@@ -35,7 +35,7 @@
 
 <section>
   <div>
-    <span use:melt={$label}>Date</span>
+    <span use:melt={$label}>Due Date</span>
     <div use:melt={$field}>
       {#key $locale}
         {#each $segmentContents as seg}
@@ -45,7 +45,7 @@
         {/each}
       {/key}
       <div>
-        <button use:melt={$trigger}>
+        <button type="button" use:melt={$trigger}>
           IMG
         </button>
       </div>

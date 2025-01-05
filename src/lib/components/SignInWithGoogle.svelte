@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { auth } from '$lib/firebase';
+	import { auth, firebaseDB } from '$lib/firebase';
+	import { setDoc, doc } from 'firebase/firestore';
 
 	import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
@@ -19,9 +20,15 @@
 		}).catch((err) => {
 			console.error(err);
 		});
-		if (res) {
-			goto('/dashboard');
-		}
+		if (!res) throw new Error('No response from server');
+		const user = credential.user;
+		await setDoc(doc(firebaseDB, 'users', user.uid), {
+			uid: user.uid,
+			email: user.email,
+			displayName: user.displayName,
+		});
+
+		goto('/dashboard');
 	}
 </script>
 
