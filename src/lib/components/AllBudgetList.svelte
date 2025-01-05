@@ -1,25 +1,24 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
-	import { budgetSums, currentDateIntervall } from './stores/budgetStores.svelte';
-	interface Props {
-		budgetItems: Budget[];
-	}
+	import { budgetSums, currentDateIntervall, monthlyBudgetItems } from './stores/budgetStores.svelte';
 
-	let { budgetItems }: Props = $props();
-	const { monthlyBudget } = budgetItems.reduce(
-		(acc: { monthlyBudget: Budget[] }, item: Budget) => {
+	function getMonthlyBudget(budgetItems: Budget[], currentDateIntervall: { startDate: Date, endDate: Date }) {
+		return budgetItems.filter((item: Budget) => {
 			const createdDate = new Date(item.createdAt);
 			const isWithinDateRange = item.dueDate
 				? new Date(item.dueDate) >= currentDateIntervall.startDate && new Date(item.dueDate) <= currentDateIntervall.endDate
 				: createdDate >= currentDateIntervall.startDate && createdDate <= currentDateIntervall.endDate;
 
-			if (isWithinDateRange) {
-				acc.monthlyBudget.push(item);
-			}
-			return acc;
-		},
-		{ monthlyBudget: [] }
-	);
+			return isWithinDateRange;
+		});
+	}
+
+	let monthlyBudget = $state(getMonthlyBudget(monthlyBudgetItems.monthItems!,currentDateIntervall));
+	$effect(() => {
+		if (monthlyBudgetItems?.monthItems) {
+			monthlyBudget = getMonthlyBudget(monthlyBudgetItems.monthItems, currentDateIntervall);
+		}
+	});
 </script>
 
 <div class="flex w-full items-center justify-between px-4">

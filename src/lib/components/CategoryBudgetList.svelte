@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { clickedChartInfo, monthlyBudgetItems } from './stores/budgetStores.svelte';
-
 </script>
 
 {#if clickedChartInfo.budgetCategory === 'income'}

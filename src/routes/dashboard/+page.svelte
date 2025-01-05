@@ -2,6 +2,7 @@
 	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
 	import { setBudget } from '$lib/components/functions';
 	import type { DashboardData } from '$lib/components/models/types';
+	import MonthSlider from '$lib/components/MonthSlider.svelte';
 	import {
 	budgetSums,
 		currentDateIntervall,
@@ -18,50 +19,12 @@
 		setBudget(data.budgetItems);
 	}
 	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly budget items found');
-	function subtractOneMonth() {
-		const newStartDate = new Date(currentDateIntervall.startDate);
-		const newEndDate = new Date(currentDateIntervall.endDate);
-		newStartDate.setMonth(newStartDate.getMonth() - 1);
-		newEndDate.setMonth(newEndDate.getMonth() - 1);
-		currentDateIntervall.startDate = newStartDate;
-		currentDateIntervall.endDate = newEndDate;
-		setBudget(data.budgetItems);
-	}
-	function addOneMonth() {
-		const newStartDate = new Date(currentDateIntervall.startDate);
-		const newEndDate = new Date(currentDateIntervall.endDate);
-		newStartDate.setMonth(newStartDate.getMonth() + 1);
-		newEndDate.setMonth(newEndDate.getMonth() + 1);
-		currentDateIntervall.startDate = newStartDate;
-		currentDateIntervall.endDate = newEndDate;
-		setBudget(data.budgetItems);
-	}
 </script>
 
 <main class="flex w-full">
 	<div class="mb-12 flex h-full w-full flex-col gap-8 p-5">
 		<h1 class="text-3xl font-bold">{data.user.displayName.split(' ')[0]}s Budget!</h1>
-		<div class="flex items-center justify-between">
-			<button onclick={subtractOneMonth}>&lt;</button>
-			<div>
-				<span
-					>{new Date(currentDateIntervall.startDate).toLocaleDateString('en-GB', {
-						day: '2-digit',
-						month: 'short',
-						year: 'numeric'
-					})}</span
-				>
-				-
-				<span
-					>{new Date(currentDateIntervall.endDate).toLocaleDateString('en-GB', {
-						day: '2-digit',
-						month: 'short',
-						year: 'numeric'
-					})}</span
-				>
-			</div>
-			<button onclick={addOneMonth}>&gt;</button>
-		</div>
+		<MonthSlider budgetItems={data.budgetItems} />
 		<div class="flex flex-col justify-between gap-4">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
 				<span class=" text-white">Remaining</span>

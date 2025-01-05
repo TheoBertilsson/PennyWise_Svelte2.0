@@ -1,13 +1,7 @@
 <script lang="ts">
 	import { clickedChartInfo, currentDateIntervall, monthlyBudgetItems } from '../stores/budgetStores.svelte';
 	import { onMount } from 'svelte';
-	import Chart, { type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
-	import type { Budget } from '../models/types';
-	interface Props {
-		budgetItems: Budget[];
-	}
-
-	let { budgetItems}: Props = $props();
+	import Chart, { type ChartConfiguration, type ChartOptions } from 'chart.js/auto';
 	let chart: Chart<'doughnut', number[], unknown> | null = null;
 	let chartRef: HTMLCanvasElement | null = null;
 
@@ -83,6 +77,13 @@
 				chart = null;
 			}
 		};
+	});
+  $effect(() => {
+		if (chart && monthlyBudgetItems?.monthItems) {
+			const newData = calculateChartData();
+			chart.data = newData;
+			chart.update();
+		}
 	});
 </script>
 
