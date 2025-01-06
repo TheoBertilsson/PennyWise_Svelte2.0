@@ -38,6 +38,7 @@ export const actions = {
 		const subCategory = formData.get('subCategory');
 		const isPaid = formData.get('isPaid');
 		const dueDate = formData.get('dueDate');
+		const createdAt = formData.get('createdAt');
 
 		const newItem = {
 			price,
@@ -46,12 +47,30 @@ export const actions = {
 			dueDate: dueDate ? Timestamp.fromDate(new Date(dueDate.toString())) : null,
 			category,
 			subCategory,
-			createdAt: Timestamp.now()
+			createdAt: createdAt ? Timestamp.fromDate(new Date(createdAt.toString())) : Timestamp.now()
 		};
 
 		const docRef = await adminDB.collection(`users/${uid}/budget`).add(newItem);
 		await docRef.update({ id: docRef.id });
-		return { status: 'success'};
+
+		// Fetch all items after adding the new one
+		const budgetdoc = await adminDB.collection(`users/${uid}/budget`).get();
+		const budgetItems = budgetdoc.docs.map((doc) => {
+			const data = doc.data();
+			return {
+				...data,
+				dueDate: data.dueDate?.toDate().toISOString(),
+				createdAt: data.createdAt.toDate().toISOString()
+			};
+		});
+
+		console.log(budgetItems);
+
+		// Return success status and the updated list of items
+		return {
+			status: 'success',
+			budgetItems
+		};
 	},
 	deleteBudgetItem: async ({ request, locals }) => {
 		const uid = locals.userID;

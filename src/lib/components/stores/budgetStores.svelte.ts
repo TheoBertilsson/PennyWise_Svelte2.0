@@ -20,13 +20,20 @@ const today = new Date();
 	if (currentDay < 25) {
 		currentMonth -= 1;
 	}
-	const startDate = new Date(currentYear, currentMonth, 24);
-	const endDate = new Date(currentYear, currentMonth + 1, 25);
-
-export const currentDateIntervall = $state<{ startDate: Date; endDate: Date }>({
-	startDate: startDate,
-	endDate: endDate
+	function getStartDate(): Date {
+		const startDate = new Date(currentYear, currentMonth, 25);
+		return startDate;
+	}
+	function getEndDate(): Date {
+		const endDate = new Date(currentYear, currentMonth + 1, 24);
+		return endDate;
+	}
+	export const currentDateIntervall = $state<{ startDate: Date; endDate: Date }>({
+	startDate: getStartDate(),
+	endDate: getEndDate()
 });
+
+
 export const budgetSums = $state<{expenses:number; income:number; remaining:number;}>({
 	expenses: 0,
 	income: 0,

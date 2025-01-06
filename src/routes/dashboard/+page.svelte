@@ -5,10 +5,8 @@
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
 	import {
 	budgetSums,
-		currentDateIntervall,
 		monthlyBudgetItems
 	} from '$lib/components/stores/budgetStores.svelte';
-	import { derived } from 'svelte/store';
 
 	interface Props {
 		data: DashboardData;

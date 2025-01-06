@@ -3,12 +3,33 @@
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 	import Select from '../meltUI/Select.svelte';
+	import { currentDateIntervall, monthlyBudgetItems } from '../stores/budgetStores.svelte';
 	const {
 		elements: { trigger, overlay, content, title, close, portalled },
 		states: { open }
 	} = createDialog({ forceVisible: true });
 
 	let isPaid = true;
+
+	async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const response = await fetch('?/addBudgetItem', {
+            method: 'POST',
+            body: formData,
+        });
+        if (response.ok) {
+            console.log('Item added successfully!');
+						const data = await response.json();
+						monthlyBudgetItems.monthItems = data.budgetItems;
+						console.log(response);
+
+
+        } else {
+            console.error('Failed to add item:', response.statusText);
+        }
+    }
+
 </script>
 
 <button class="flex justify-center items-center  w-80 rounded-lg border-2 border-black bg-white p-4 shadow-md" use:melt={$trigger}>
@@ -26,8 +47,13 @@
 			class="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background p-6 shadow-lg"
 			use:melt={$content}
 		>
-			<form method="POST" action="?/addBudgetItem" class="flex flex-col gap-4">
+			<form onsubmit={handleSubmit} method="POST" action="?/addBudgetItem" class="flex flex-col gap-4">
 				<Select />
+				<input
+					type="hidden"
+					name="createdAt"
+					value={currentDateIntervall.startDate}
+				/>
 				<input
 					type="number"
 					id="price"
@@ -73,6 +99,7 @@
 						Cancel
 					</button>
 					<button
+					use:melt={$close}
 						type="submit"
 						class="h-10 w-48 rounded-lg border-2 border-neutral-800 bg-white font-semibold text-neutral-800 hover:text-neutral-800/60"
 					>
