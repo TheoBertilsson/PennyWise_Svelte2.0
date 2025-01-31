@@ -1,4 +1,4 @@
-import { adminAuth } from '$lib/server/admin.server';
+import { adminAuth } from '$lib/server/Firebase';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 

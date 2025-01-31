@@ -1,5 +1,5 @@
 import { adminAuth } from '$lib/server/Firebase';
-import { type Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle = (async ({ event, resolve }) => {
 	const sessionCookie = event.cookies.get('__session');

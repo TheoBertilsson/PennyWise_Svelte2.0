@@ -3,7 +3,7 @@
 	import { auth, firebaseDB } from '$lib/firebase';
 	import { setDoc, doc } from 'firebase/firestore';
 
-	import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 	async function signInWithGoogle() {
 		const provider = new GoogleAuthProvider();
@@ -25,10 +25,10 @@
 		await setDoc(doc(firebaseDB, 'users', user.uid), {
 			uid: user.uid,
 			email: user.email,
-			displayName: user.displayName,
+			displayName: user.displayName
 		});
 
-		goto('/dashboard');
+		goto('/');
 	}
 </script>
 
