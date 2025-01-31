@@ -64,8 +64,6 @@ export const actions = {
 			};
 		});
 
-		console.log(budgetItems);
-
 		// Return success status and the updated list of items
 		return {
 			status: 'success',
