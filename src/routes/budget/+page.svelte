@@ -19,7 +19,7 @@
 	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly items found');
 </script>
 
-<main class="mb-16 flex h-full flex-col items-center justify-start gap-2 w-full">
+<main class="mb-16 flex h-full w-full flex-col items-center justify-start gap-2">
 	<div class="flex h-full w-full flex-col items-center justify-between gap-6 p-4">
 		<MonthSlider budgetItems={data.budgetItems} />
 		{#if !data.budgetItems.length}
@@ -28,7 +28,7 @@
 			>
 		{:else}
 			<DonutChart />
-			<div class="flex w-full flex-col items-center justify-center gap-2 px-5">
+			<div class="flex w-full flex-col items-center justify-center gap-2">
 				{#if !clickedChartInfo.budgetCategory}
 					<BudgetItemsList />
 				{:else if clickedChartInfo.budgetCategory && clickedChartInfo.budgetSum}

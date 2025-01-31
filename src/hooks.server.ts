@@ -1,4 +1,4 @@
-import { adminAuth } from '$lib/server/admin.server';
+import { adminAuth } from '$lib/server/Firebase';
 import { type Handle } from '@sveltejs/kit';
 
 export const handle = (async ({ event, resolve }) => {

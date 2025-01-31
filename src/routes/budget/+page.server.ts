@@ -1,5 +1,5 @@
 import { error, redirect, type Actions } from '@sveltejs/kit';
-import { adminDB } from '$lib/server/admin.server';
+import { adminDB } from '$lib/server/Firebase';
 import { Timestamp } from 'firebase-admin/firestore';
 import type { PageServerLoad } from './$types';
 

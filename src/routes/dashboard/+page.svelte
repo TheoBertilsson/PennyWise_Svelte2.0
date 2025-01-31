@@ -3,10 +3,7 @@
 	import { setBudget } from '$lib/components/functions';
 	import type { DashboardData } from '$lib/components/models/types';
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
-	import {
-	budgetSums,
-		monthlyBudgetItems
-	} from '$lib/components/stores/budgetStores.svelte';
+	import { budgetSums, monthlyBudgetItems } from '$lib/components/stores/budgetStores.svelte';
 
 	interface Props {
 		data: DashboardData;
@@ -20,10 +17,10 @@
 </script>
 
 <main class="flex w-full">
-	<div class="mb-12 flex h-full w-full flex-col gap-6 p-5 items-center justify-center">
+	<div class="mb-12 flex h-full w-full flex-col items-center justify-center gap-6 p-5">
 		<h1 class="text-3xl font-bold">{data.user.displayName.split(' ')[0]}s Budget!</h1>
 		<MonthSlider budgetItems={data.budgetItems} />
-		<div class="flex flex-col justify-between gap-4 w-full">
+		<div class="flex w-full flex-col justify-between gap-4">
 			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
 				<span class=" text-white">Remaining</span>
 				<span class="text-3xl font-bold text-white">{budgetSums.expenses}$</span>
@@ -46,7 +43,7 @@
 							>This months budget is empty, add an item to start budgeting</span
 						>
 					{:else}
-						<DountChartWithoutLabels/>
+						<DountChartWithoutLabels />
 					{/if}
 				</div>
 			</div>
