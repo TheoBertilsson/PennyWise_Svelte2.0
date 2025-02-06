@@ -10,18 +10,29 @@
 	}
 
 	let { data }: Props = $props();
-	if (!monthlyBudgetItems.monthItems) {
-		setBudget(data.budgetItems);
+	// Setup form action on layout.server.ts to retrieve budget items if not exists
+	const getBudgetItems = async () => {
+		const res = await fetch('?/getBudgetItems', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		const data = await res.json();
+		monthlyBudgetItems.monthItems = data;
+	};
+	if (!monthlyBudgetItems) {
+		getBudgetItems();
 	}
-	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly budget items found');
+	$inspect(monthlyBudgetItems);
 </script>
 
 <main class="flex w-full">
 	<div class="mb-12 flex h-full w-full flex-col items-center justify-center gap-6 p-5">
 		<h1 class="text-3xl font-bold">{data.user.displayName.split(' ')[0]}s Budget!</h1>
-		<MonthSlider budgetItems={data.budgetItems} />
+		<MonthSlider />
 		<div class="flex w-full flex-col justify-between gap-4">
-			<div class="flex w-full flex-col rounded-lg bg-primary p-4 shadow-md">
+			<div class="bg-primary flex w-full flex-col rounded-lg p-4 shadow-md">
 				<span class=" text-white">Remaining</span>
 				<span class="text-3xl font-bold text-white">{budgetSums.expenses}$</span>
 			</div>

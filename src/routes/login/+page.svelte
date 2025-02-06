@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SignInWithGoogle from '$lib/components/SignInWithGoogle.svelte';
+	import SignInWithGoogle from '$lib/components/buttons/SignInWithGoogle.svelte';
 </script>
 
 <header class="flex h-[30vh] justify-center">

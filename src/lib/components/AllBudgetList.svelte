@@ -6,6 +6,7 @@
 		monthlyBudgetItems
 	} from './stores/budgetStores.svelte';
 
+	export const snipper = budgetList;
 	function getMonthlyBudget(
 		budgetItems: Budget[],
 		currentDateIntervall: { startDate: Date; endDate: Date }
@@ -52,7 +53,7 @@
 			<form
 				method="POST"
 				action="?/deleteBudgetItem"
-				class="flex w-full justify-between border-b-2 border-black border-opacity-10 p-1"
+				class="border-opacity-10 flex w-full justify-between border-b-2 border-black p-1"
 			>
 				<input type="hidden" name="id" value={item.id} />
 				<span class="pb-1 font-semibold">{item.subCategory}</span>
@@ -71,22 +72,25 @@
 	</div>
 {/snippet}
 
-<div class="flex w-full flex-wrap items-center gap-5">
-	<div
-		class="flex min-w-64 flex-1 flex-col items-center justify-center gap-5 rounded-lg border-2 border-primary bg-white p-4 px-4 shadow-md"
-	>
-		<span class="text-lg font-bold"
-			>Remaining: {(budgetSums.income - budgetSums.expenses).toLocaleString()} kr</span
+<div class="flex w-full flex-wrap gap-10">
+	<div class="flex min-w-80 flex-1 flex-col items-start justify-start gap-5">
+		<div
+			class="border-primary flex w-full flex-col items-center justify-center gap-5 rounded-lg border-2 bg-white p-4 px-4 shadow-md"
 		>
+			<span class="text-lg font-bold"
+				>Remaining: {(budgetSums.income - budgetSums.expenses).toLocaleString()} kr</span
+			>
+		</div>
+		<div
+			class="flex w-full flex-col items-center justify-center gap-5 rounded-lg border-2 border-green-700 bg-white p-4 px-4 shadow-md"
+		>
+			<span class="text-lg font-bold">Income: {budgetSums.income.toLocaleString()} kr</span>
+			{@render budgetList(incomeBudget)}
+		</div>
 	</div>
+
 	<div
-		class="flex min-w-64 flex-1 flex-col items-center justify-center gap-5 rounded-lg border-2 border-green-700 bg-white p-4 px-4 shadow-md"
-	>
-		<span class="text-lg font-bold">Income: {budgetSums.income.toLocaleString()} kr</span>
-		{@render budgetList(incomeBudget)}
-	</div>
-	<div
-		class="flex min-w-64 flex-1 flex-col items-center justify-center gap-5 rounded-lg border-2 border-red-700 bg-white p-4 px-4 shadow-md"
+		class="flex min-w-80 flex-1 flex-col items-center justify-center gap-5 rounded-lg border-2 border-red-700 bg-white p-4 px-4 shadow-md"
 	>
 		<span class="text-lg font-bold">Expense: {budgetSums.expenses.toLocaleString()} kr</span>
 		{@render budgetList(expenseBudget)}

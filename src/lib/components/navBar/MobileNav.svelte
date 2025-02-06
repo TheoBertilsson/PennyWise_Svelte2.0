@@ -2,7 +2,7 @@
 	import 'iconify-icon';
 </script>
 
-<footer class="fixed bottom-0 flex h-16 w-full items-center justify-evenly bg-primary">
+<nav class="bg-primary fixed bottom-0 flex h-16 w-full items-center justify-evenly">
 	<a href="/" aria-label="Dashboard">
 		<iconify-icon icon="line-md:home" class="text-3xl text-[#f8f5ef]"></iconify-icon>
 	</a>
@@ -18,7 +18,4 @@
 	<a href="/logout" aria-label="Log out">
 		<iconify-icon icon="mdi:logout" class="text-3xl text-[#f8f5ef]"></iconify-icon>
 	</a>
-</footer>
-
-<style>
-</style>
+</nav>

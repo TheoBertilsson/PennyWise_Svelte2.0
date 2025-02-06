@@ -1,9 +1,27 @@
-import { error, redirect, type Actions } from '@sveltejs/kit';
+import { getBudgetDoc } from '$lib/server/Firebase';
 import { adminDB } from '$lib/server/Firebase';
-import { Timestamp } from 'firebase-admin/firestore';
-import type { PageServerLoad } from './$types';
+import { error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
+import type { LayoutServerLoad } from './$types';
+import type { Actions } from '@sveltejs/kit';
+import { Timestamp } from 'firebase/firestore/lite';
+import { get } from 'svelte/store';
 
-export const actions = {
+export const load: LayoutServerLoad = async ({ locals }) => {
+	const uid = locals.userID;
+	if (!uid) return redirect(301, '/login');
+
+	const userDoc = await adminDB.collection('users').doc(uid).get();
+	const userData = userDoc.data();
+	const budgetItems = await getBudgetDoc(uid);
+
+	if (!userData) throw error(404, 'User not found');
+	return {
+		user: userData,
+		budgetItems
+	};
+};
+export const _actions = {
 	addBudgetItem: async ({ request, locals }) => {
 		const uid = locals.userID;
 
@@ -68,5 +86,20 @@ export const actions = {
 			console.error(`Failed to delete item with id: ${id}`, err);
 			return error(500, 'Failed to delete item');
 		}
+	},
+	getBudgetItems: async ({ locals }) => {
+		const uid = locals.userID;
+		if (!uid) return redirect(301, '/login');
+
+		const userDoc = await adminDB.collection('users').doc(uid).get();
+		const userData = userDoc.data();
+		const budgetItems = await getBudgetDoc(uid);
+
+		if (!userData) throw error(404, 'User not found');
+		return {
+			status: 'success',
+			user: userData,
+			budgetItems
+		};
 	}
 } satisfies Actions;

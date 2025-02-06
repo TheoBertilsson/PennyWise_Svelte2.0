@@ -5,24 +5,18 @@
 	import { clickedChartInfo, monthlyBudgetItems } from '$lib/components/stores/budgetStores.svelte';
 	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
 	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
-	import { setBudget } from '$lib/components/functions';
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
 
-	interface Props {
-		data: BudgetData;
-	}
-
-	let { data }: Props = $props();
-	if (!monthlyBudgetItems.monthItems) {
-		setBudget(data.budgetItems);
-	}
-	if (!monthlyBudgetItems.monthItems) throw new Error('No monthly items found');
+	const { data }: { data: BudgetData } = $props();
+	console.log(data);
 </script>
 
-<main class="mb-16 flex h-full w-full flex-col items-center justify-start gap-2">
-	<div class="flex h-full w-full flex-col items-center justify-between gap-6 p-4">
-		<MonthSlider budgetItems={data.budgetItems} />
-		{#if !data.budgetItems.length}
+<main
+	class="mb-16 flex h-full w-full max-w-screen-lg flex-col items-center justify-start gap-10 p-5"
+>
+	<div class="flex h-full w-full flex-col items-center justify-between gap-6">
+		<MonthSlider />
+		{#if data.budgetItems.length === 0}
 			<span class="p-8 text-center text-lg"
 				>This months budget is empty, add an item to start budgeting</span
 			>

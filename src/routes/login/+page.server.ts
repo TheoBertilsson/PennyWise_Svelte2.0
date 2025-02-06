@@ -3,5 +3,5 @@ import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
 	const uid = locals.userID;
-	if (uid) return redirect(301, '/');
+	if (uid) return redirect(301, '/dashboard');
 }) satisfies PageServerLoad;

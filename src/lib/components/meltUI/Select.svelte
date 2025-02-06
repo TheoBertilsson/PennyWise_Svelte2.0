@@ -45,17 +45,17 @@
 			{#each Object.entries(options) as [key, array]}
 				<div use:melt={$group(key)} class="flex flex-col gap-1">
 					<div
-						class="px-4 py-1 font-semibold capitalize text-neutral-800"
+						class="px-4 py-1 font-semibold text-neutral-800 capitalize"
 						use:melt={$groupLabel(key)}
 					>
 						{key}
 					</div>
 					{#each array as item}
 						<div
-							class=" cursor-pointer rounded-lg py-1 pl-8 pr-4 text-neutral-800
-						hover:bg-text/10 focus:z-10
-						focus:text-text/70
-						data-[highlighted]:bg-text/20 data-[highlighted]:text-text/90
+							class=" hover:bg-text/10 focus:text-text/70 data-[highlighted]:bg-text/20 data-[highlighted]:text-text/90 cursor-pointer rounded-lg
+						py-1 pr-4
+						pl-8
+						text-neutral-800 focus:z-10
 						data-[disabled]:opacity-50"
 							use:melt={$option({ value: item, label: item })}
 						>
@@ -69,14 +69,3 @@
 	<input type="hidden" name="subCategory" value={$selectedLabel} />
 	<input type="hidden" name="category" value={selectedGroup} />
 </div>
-
-<style lang="postcss">
-	.check {
-		position: absolute;
-		left: theme(spacing.2);
-		top: 50%;
-		z-index: theme(zIndex.20);
-		translate: 0 calc(-50% + 1px);
-		color: theme(colors.black);
-	}
-</style>

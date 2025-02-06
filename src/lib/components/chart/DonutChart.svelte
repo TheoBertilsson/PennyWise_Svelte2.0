@@ -103,6 +103,3 @@
 >
 	<canvas bind:this={chartRef} class="h-[320px] w-[320px]"></canvas>
 </div>
-
-<style>
-</style>

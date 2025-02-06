@@ -33,7 +33,7 @@ export const getTransactions = async (uid: string): Promise<Transaction[]> => {
 	});
 };
 
-export const getBudgetItems = async (uid: string): Promise<Budget[]> => {
+export const getBudgetDoc = async (uid: string): Promise<Budget[]> => {
 	const budgetDoc = await adminDB.collection(`users/${uid}/budget`).get();
 	return budgetDoc.docs.map((doc) => {
 		const data = doc.data();

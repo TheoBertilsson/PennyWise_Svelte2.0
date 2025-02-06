@@ -1,11 +1,6 @@
 <script lang="ts">
-	import { setBudget } from './functions';
-	import type { Budget } from './models/types';
 	import { currentDateIntervall } from './stores/budgetStores.svelte';
-	interface Props {
-		budgetItems: Budget[];
-	}
-	let { budgetItems }: Props = $props();
+
 	function subtractOneMonth() {
 		const newStartDate = new Date(currentDateIntervall.startDate);
 		const newEndDate = new Date(currentDateIntervall.endDate);
@@ -13,7 +8,6 @@
 		newEndDate.setMonth(newEndDate.getMonth() - 1);
 		currentDateIntervall.startDate = newStartDate;
 		currentDateIntervall.endDate = newEndDate;
-		setBudget(budgetItems);
 	}
 	function addOneMonth() {
 		const newStartDate = new Date(currentDateIntervall.startDate);
@@ -22,11 +16,10 @@
 		newEndDate.setMonth(newEndDate.getMonth() + 1);
 		currentDateIntervall.startDate = newStartDate;
 		currentDateIntervall.endDate = newEndDate;
-		setBudget(budgetItems);
 	}
 </script>
 
-<div class="flex items-center justify-between gap-6 max-w-[270px]">
+<div class="flex max-w-[270px] items-center justify-between gap-6">
 	<button onclick={subtractOneMonth}>&lt;</button>
 	<div>
 		<span

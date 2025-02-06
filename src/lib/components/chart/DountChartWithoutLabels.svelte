@@ -6,8 +6,10 @@
 	let chart: Chart<'doughnut', number[], unknown> | null = null;
 	let chartRef: HTMLCanvasElement | null = null;
 
-  function calculateChartData() {
-		const uniqueCategories = Array.from(new Set(monthlyBudgetItems?.monthItems?.map((item) => item.category) || []));
+	function calculateChartData() {
+		const uniqueCategories = Array.from(
+			new Set(monthlyBudgetItems?.monthItems?.map((item) => item.category) || [])
+		);
 		const categorySums = uniqueCategories.map((category) => {
 			return (monthlyBudgetItems?.monthItems || [])
 				.filter((item) => {
@@ -15,9 +17,14 @@
 						const createdDate = new Date(item.createdAt);
 						if (item.dueDate) {
 							const dueDate = new Date(item.dueDate);
-							return dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate;
+							return (
+								dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate
+							);
 						} else {
-							return createdDate >= currentDateIntervall.startDate && createdDate <= currentDateIntervall.endDate;
+							return (
+								createdDate >= currentDateIntervall.startDate &&
+								createdDate <= currentDateIntervall.endDate
+							);
 						}
 					}
 				})
@@ -65,7 +72,7 @@
 		};
 	});
 
-  $effect(() => {
+	$effect(() => {
 		if (chart && monthlyBudgetItems?.monthItems) {
 			const newData = calculateChartData();
 			chart.data = newData;
@@ -73,9 +80,7 @@
 		}
 	});
 </script>
+
 <div class="chart-container relative max-h-60 max-w-60">
 	<canvas bind:this={chartRef}></canvas>
 </div>
-
-<style>
-</style>
