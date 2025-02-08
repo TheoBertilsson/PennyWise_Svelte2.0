@@ -1,48 +1,27 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
-	import {
-		budgetSums,
-		currentDateIntervall,
-		monthlyBudgetItems
-	} from './stores/budgetStores.svelte';
+	import { budgetSums, monthlyBudgetItems } from './stores/budgetStores.svelte';
 
 	export const snipper = budgetList;
-	function getMonthlyBudget(
-		budgetItems: Budget[],
-		currentDateIntervall: { startDate: Date; endDate: Date }
-	) {
-		return budgetItems.filter((item: Budget) => {
-			const createdDate = new Date(item.createdAt);
-			const isWithinDateRange = item.dueDate
-				? new Date(item.dueDate) >= currentDateIntervall.startDate &&
-					new Date(item.dueDate) <= currentDateIntervall.endDate
-				: createdDate >= currentDateIntervall.startDate &&
-					createdDate <= currentDateIntervall.endDate;
+	let expenseBudget: Budget[] = $state([]);
+	let incomeBudget: Budget[] = $state([]);
 
-			return isWithinDateRange;
-		});
-	}
-
-	let monthlyBudget = $state(
-		getMonthlyBudget(monthlyBudgetItems.monthItems!, currentDateIntervall)
-	);
-	const expenseBudget = $derived(
-		monthlyBudget
-			.filter((item: Budget) => item.category !== 'income')
-			.sort((a, b) => {
-				// First sort by category
-				const categoryCompare = a.category.localeCompare(b.category);
-				// If categories are the same, sort by subCategory
-				if (categoryCompare === 0) {
-					return a.subCategory.localeCompare(b.subCategory);
-				}
-				return categoryCompare;
-			})
-	);
-	const incomeBudget = $derived(monthlyBudget.filter((item: Budget) => item.category === 'income'));
 	$effect(() => {
-		if (monthlyBudgetItems?.monthItems) {
-			monthlyBudget = getMonthlyBudget(monthlyBudgetItems.monthItems, currentDateIntervall);
+		if (monthlyBudgetItems.monthItems) {
+			expenseBudget = monthlyBudgetItems.monthItems
+				.filter((item: Budget) => item.category !== 'income')
+				.sort((a, b) => {
+					// First sort by category
+					const categoryCompare = a.category.localeCompare(b.category);
+					// If categories are the same, sort by subCategory
+					if (categoryCompare === 0) {
+						return a.subCategory.localeCompare(b.subCategory);
+					}
+					return categoryCompare;
+				});
+			incomeBudget = monthlyBudgetItems.monthItems.filter(
+				(item: Budget) => item.category === 'income'
+			);
 		}
 	});
 </script>

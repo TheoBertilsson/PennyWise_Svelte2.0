@@ -6,11 +6,13 @@
 	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
 	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
-	import { setBudget } from '$lib/components/functions';
 	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
+	import { page } from '$app/state';
+	import { setBudget } from '$lib/components/functions';
 
-	const { data }: { data: BudgetData } = $props();
-	setBudget(data.budgetItems);
+	if (!monthlyBudgetItems.monthItems) {
+		setBudget(page.data.budgetItems);
+	}
 </script>
 
 <main
@@ -18,7 +20,7 @@
 >
 	<div class="flex h-full w-full flex-col items-center justify-between gap-6">
 		<MonthSlider />
-		{#if data.budgetItems.length === 0}
+		{#if !monthlyBudgetItems.monthItems}
 			<span class="p-8 text-center text-lg"
 				>This months budget is empty, add an item to start budgeting</span
 			>
