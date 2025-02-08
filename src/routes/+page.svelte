@@ -10,21 +10,7 @@
 	}
 
 	let { data }: Props = $props();
-	// Setup form action on layout.server.ts to retrieve budget items if not exists
-	const getBudgetItems = async () => {
-		const res = await fetch('?/getBudgetItems', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		const data = await res.json();
-		monthlyBudgetItems.monthItems = data;
-	};
-	if (!monthlyBudgetItems) {
-		getBudgetItems();
-	}
-	$inspect(monthlyBudgetItems);
+	setBudget(data.budgetItems);
 </script>
 
 <main class="flex w-full">

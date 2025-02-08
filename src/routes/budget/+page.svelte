@@ -6,9 +6,11 @@
 	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
 	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
+	import { setBudget } from '$lib/components/functions';
+	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
 
 	const { data }: { data: BudgetData } = $props();
-	console.log(data);
+	setBudget(data.budgetItems);
 </script>
 
 <main
@@ -21,7 +23,7 @@
 				>This months budget is empty, add an item to start budgeting</span
 			>
 		{:else}
-			<DonutChart />
+			<DountChartWithoutLabels />
 			<div class="flex w-full flex-col items-center justify-center gap-2">
 				{#if !clickedChartInfo.budgetCategory}
 					<BudgetItemsList />
