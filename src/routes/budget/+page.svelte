@@ -1,17 +1,46 @@
 <script lang="ts">
 	import AddBudgetItem from '$lib/components/buttons/AddBudgetItem.svelte';
-	import DonutChart from '$lib/components/chart/DonutChart.svelte';
-	import type { BudgetData } from '$lib/components/models/types';
-	import { clickedChartInfo, monthlyBudgetItems } from '$lib/components/stores/budgetStores.svelte';
+	import type { Budget } from '$lib/components/models/types';
+	import {
+		clickedChartInfo,
+		budget,
+		currentDateIntervall,
+		user
+	} from '$lib/components/stores/budgetStores.svelte';
 	import BudgetItemsList from '$lib/components/AllBudgetList.svelte';
 	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
 	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
-	import { page } from '$app/state';
-	import { setBudget } from '$lib/components/functions';
+	import { setBudget, setDates } from '$lib/components/functions';
 
-	if (!monthlyBudgetItems.monthItems) {
-		setBudget(page.data.budgetItems);
+	let { data } = $props();
+
+	if (!budget.monthlyItems) {
+		if (!currentDateIntervall.startDate || !currentDateIntervall.endDate) {
+			setDates();
+		}
+		user.name = data.user.displayName;
+		user.email = data.user.email;
+		budget.items = data.budgetItems;
+		const asd = data.budgetItems.filter((item: Budget) => {
+			const createdDate = new Date(item.createdAt);
+
+			const isWithinDateRange = item.dueDate
+				? currentDateIntervall.startDate &&
+					currentDateIntervall.endDate &&
+					new Date(item.dueDate) >= currentDateIntervall.startDate &&
+					new Date(item.dueDate) <= currentDateIntervall.endDate
+				: currentDateIntervall.startDate &&
+					currentDateIntervall.endDate &&
+					createdDate >= currentDateIntervall.startDate &&
+					createdDate <= currentDateIntervall.endDate;
+
+			return isWithinDateRange;
+		});
+		console.log(asd);
+
+		budget.monthlyItems = asd;
+		setBudget(budget.monthlyItems);
 	}
 </script>
 
@@ -20,7 +49,7 @@
 >
 	<div class="flex h-full w-full flex-col items-center justify-between gap-6">
 		<MonthSlider />
-		{#if !monthlyBudgetItems.monthItems}
+		{#if budget.monthlyItems?.length === 0}
 			<span class="p-8 text-center text-lg"
 				>This months budget is empty, add an item to start budgeting</span
 			>

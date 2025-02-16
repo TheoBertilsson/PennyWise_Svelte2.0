@@ -1,9 +1,5 @@
 <script lang="ts">
-	import {
-		clickedChartInfo,
-		currentDateIntervall,
-		monthlyBudgetItems
-	} from '../stores/budgetStores.svelte';
+	import { clickedChartInfo, currentDateIntervall, budget } from '../stores/budgetStores.svelte';
 	import { onMount } from 'svelte';
 	import Chart, { type ChartConfiguration, type ChartOptions } from 'chart.js/auto';
 	let chart: Chart<'doughnut', number[], unknown> | null = null;
@@ -11,22 +7,23 @@
 
 	function calculateChartData() {
 		const uniqueCategories = Array.from(
-			new Set(monthlyBudgetItems?.monthItems?.map((item) => item.category) || [])
+			new Set(budget?.monthlyItems?.map((item) => item.category) || [])
 		);
 		const categorySums = uniqueCategories.map((category) => {
-			return (monthlyBudgetItems?.monthItems || [])
+			return (budget?.monthlyItems || [])
 				.filter((item) => {
 					if (item.category === category) {
 						const createdDate = new Date(item.createdAt);
 						if (item.dueDate) {
 							const dueDate = new Date(item.dueDate);
 							return (
-								dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate
+								dueDate >= (currentDateIntervall.startDate ?? new Date(0)) &&
+								dueDate <= (currentDateIntervall.endDate ?? new Date())
 							);
 						} else {
 							return (
-								createdDate >= currentDateIntervall.startDate &&
-								createdDate <= currentDateIntervall.endDate
+								createdDate >= (currentDateIntervall.startDate ?? new Date(0)) &&
+								createdDate <= (currentDateIntervall.endDate ?? new Date())
 							);
 						}
 					}
@@ -90,7 +87,7 @@
 		};
 	});
 	$effect(() => {
-		if (chart && monthlyBudgetItems?.monthItems) {
+		if (chart && budget?.monthlyItems) {
 			const newData = calculateChartData();
 			chart.data = newData;
 			chart.update();

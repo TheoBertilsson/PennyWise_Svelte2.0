@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clickedChartInfo, monthlyBudgetItems } from './stores/budgetStores.svelte';
+	import { clickedChartInfo, budget } from './stores/budgetStores.svelte';
 </script>
 
 {#if clickedChartInfo.budgetCategory === 'income'}
@@ -13,8 +13,8 @@
 		<span class=" text-lg font-bold">{clickedChartInfo.budgetSum?.toLocaleString()} kr</span>
 	</div>
 {/if}
-{#each monthlyBudgetItems.monthItems!.filter((item) => item.category === clickedChartInfo.budgetCategory) as item}
-	<div class="flex w-full justify-between border-b-2 border-black border-opacity-10">
+{#each budget.monthlyItems!.filter((item) => item.category === clickedChartInfo.budgetCategory) as item}
+	<div class="border-opacity-10 flex w-full justify-between border-b-2 border-black">
 		<span class="font-bold">{item.subCategory}</span>
 		<h3>{item.price.toLocaleString()} kr</h3>
 	</div>

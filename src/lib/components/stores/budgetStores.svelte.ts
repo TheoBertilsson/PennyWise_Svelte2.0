@@ -8,8 +8,9 @@ export let clickedChartInfo = $state<{
 	budgetSum: undefined
 });
 
-export let monthlyBudgetItems = $state<{ monthItems: Budget[] | undefined }>({
-	monthItems: undefined
+export let budget = $state<{ items: Budget[] | undefined; monthlyItems: Budget[] | undefined }>({
+	items: undefined,
+	monthlyItems: undefined
 });
 
 export const budgetSums = $state<{ expenses: number; income: number; remaining: number }>({
@@ -18,3 +19,5 @@ export const budgetSums = $state<{ expenses: number; income: number; remaining: 
 	remaining: 0
 });
 export const currentDateIntervall = $state<{ startDate?: Date; endDate?: Date }>({});
+
+export let user = $state<{ name: string; email: string }>({ name: '', email: '' });

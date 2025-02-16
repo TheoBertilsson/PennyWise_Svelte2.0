@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
-	import { budgetSums, monthlyBudgetItems } from './stores/budgetStores.svelte';
+	import { budgetSums, budget } from './stores/budgetStores.svelte';
 
 	export const snipper = budgetList;
 	let expenseBudget: Budget[] = $state([]);
 	let incomeBudget: Budget[] = $state([]);
 
 	$effect(() => {
-		if (monthlyBudgetItems.monthItems) {
-			expenseBudget = monthlyBudgetItems.monthItems
+		if (budget.monthlyItems) {
+			expenseBudget = budget.monthlyItems
 				.filter((item: Budget) => item.category !== 'income')
 				.sort((a, b) => {
 					// First sort by category
@@ -19,9 +19,7 @@
 					}
 					return categoryCompare;
 				});
-			incomeBudget = monthlyBudgetItems.monthItems.filter(
-				(item: Budget) => item.category === 'income'
-			);
+			incomeBudget = budget.monthlyItems.filter((item: Budget) => item.category === 'income');
 		}
 	});
 </script>

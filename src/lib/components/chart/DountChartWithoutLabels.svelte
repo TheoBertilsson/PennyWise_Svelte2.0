@@ -1,27 +1,32 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Chart, type ChartConfiguration, type ChartData, type ChartOptions } from 'chart.js/auto';
-	import { currentDateIntervall, monthlyBudgetItems } from '../stores/budgetStores.svelte';
+	import { currentDateIntervall, budget } from '../stores/budgetStores.svelte';
 
 	let chart: Chart<'doughnut', number[], unknown> | null = null;
 	let chartRef: HTMLCanvasElement | null = null;
 
 	function calculateChartData() {
 		const uniqueCategories = Array.from(
-			new Set(monthlyBudgetItems?.monthItems?.map((item) => item.category) || [])
+			new Set(budget.monthlyItems?.map((item) => item.category) || [])
 		);
 		const categorySums = uniqueCategories.map((category) => {
-			return (monthlyBudgetItems?.monthItems || [])
+			return (budget.monthlyItems || [])
 				.filter((item) => {
 					if (item.category === category) {
 						const createdDate = new Date(item.createdAt);
 						if (item.dueDate) {
 							const dueDate = new Date(item.dueDate);
 							return (
-								dueDate >= currentDateIntervall.startDate && dueDate <= currentDateIntervall.endDate
+								currentDateIntervall.startDate &&
+								currentDateIntervall.endDate &&
+								dueDate >= currentDateIntervall.startDate &&
+								dueDate <= currentDateIntervall.endDate
 							);
 						} else {
 							return (
+								currentDateIntervall.startDate &&
+								currentDateIntervall.endDate &&
 								createdDate >= currentDateIntervall.startDate &&
 								createdDate <= currentDateIntervall.endDate
 							);
@@ -73,7 +78,7 @@
 	});
 
 	$effect(() => {
-		if (chart && monthlyBudgetItems?.monthItems) {
+		if (chart && budget.monthlyItems) {
 			const newData = calculateChartData();
 			chart.data = newData;
 			chart.update();

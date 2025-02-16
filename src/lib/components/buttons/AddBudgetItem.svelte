@@ -3,7 +3,7 @@
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 	import Select from '../meltUI/Select.svelte';
-	import { currentDateIntervall, monthlyBudgetItems } from '../stores/budgetStores.svelte';
+	import { currentDateIntervall, budget } from '../stores/budgetStores.svelte';
 	const {
 		elements: { trigger, overlay, content, title, close, portalled },
 		states: { open }
@@ -21,7 +21,7 @@
 		if (response.ok) {
 			console.log('Item added successfully!');
 			const data = await response.json();
-			monthlyBudgetItems.monthItems = data.budgetItems;
+			budget.monthlyItems = data.budgetItems;
 			console.log(response);
 		} else {
 			console.error('Failed to add item:', response.statusText);
@@ -44,7 +44,7 @@
 			transition:fade={{ duration: 500 }}
 		></div>
 		<div
-			class="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-background p-6 shadow-lg"
+			class="bg-background fixed top-1/2 left-1/2 z-50 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-xl p-6 shadow-lg"
 			use:melt={$content}
 		>
 			<form
@@ -95,7 +95,7 @@
 					<button
 						use:melt={$close}
 						class="inline-flex h-10 w-28 items-center justify-center
-												rounded-lg border-2 border-neutral-500 bg-neutral-500 px-8 py-4 font-medium leading-none text-white hover:text-white/60"
+												rounded-lg border-2 border-neutral-500 bg-neutral-500 px-8 py-4 leading-none font-medium text-white hover:text-white/60"
 					>
 						Cancel
 					</button>
