@@ -3,13 +3,17 @@
 	import { fade } from 'svelte/transition';
 
 	const options: { [key: string]: string[] } = {
-		savings: ['Emergency fund', 'Investment', 'Retirement'],
-		income: ['Salary', 'Bonus', 'Gift'],
-		food: ['Groceries', 'Dining out'],
-		transport: ['Public transport', 'Uber', 'Car'],
-		housing: ['Rent', 'Mortgage', 'Utilities'],
-		entertainment: ['Movies', 'Concerts', 'Games'],
-		subscription: ['TV', 'Spotify', 'Gym', 'Phone']
+		savings: ['Emergency Fund', 'Investments', 'Retirement', 'Education Fund'],
+		income: ['Salary', 'Bonus', 'Freelance', 'Rental Income', 'Dividends'],
+		food: ['Groceries', 'Dining Out', 'Coffee Shops', 'Snacks'],
+		transport: ['Public Transport', 'Ride Sharing', 'Fuel', 'Car Maintenance', 'Parking'],
+		housing: ['Rent', 'Mortgage', 'Utilities', 'Home Insurance', 'Property Tax'],
+		entertainment: ['Movies', 'Concerts', 'Games', 'Streaming Services', 'Hobbies'],
+		subscriptions: ['TV', 'Music', 'Gym', 'Phone', 'Software', 'Magazines'],
+		healthcare: ['Insurance', 'Doctor Visits', 'Medications', 'Dental', 'Vision'],
+		personal: ['Clothing', 'Haircuts', 'Personal Care', 'Gifts', 'Charity'],
+		education: ['Tuition', 'Books', 'Supplies', 'Courses', 'Workshops'],
+		miscellaneous: ['Pet Care', 'Travel', 'Emergency Expenses', 'Miscellaneous']
 	};
 	const {
 		elements: { trigger, menu, option, group, groupLabel },

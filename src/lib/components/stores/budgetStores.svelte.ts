@@ -1,3 +1,5 @@
+import { untrack } from 'svelte';
+import { getMonthlyBudgetItems } from '../functions';
 import type { Budget } from '../models/types';
 
 export let clickedChartInfo = $state<{

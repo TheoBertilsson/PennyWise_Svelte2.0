@@ -34,3 +34,24 @@ function getBudgetIncome(monthlyItems: Budget[]) {
 function getBudgetSum() {
 	budgetSums.remaining = budgetSums.income - budgetSums.expenses;
 }
+
+export function getMonthlyBudgetItems(
+	budgetItems: Budget[],
+	startDate: Date | undefined,
+	endDate: Date | undefined
+) {
+	if (!startDate && !endDate) throw Error('No date range provided');
+	const asd = budgetItems.filter((item: Budget) => {
+		const createdDate = new Date(item.createdAt);
+
+		const isWithinDateRange = item.dueDate
+			? startDate &&
+				endDate &&
+				new Date(item.dueDate) >= startDate &&
+				new Date(item.dueDate) <= endDate
+			: startDate && endDate && createdDate >= startDate && createdDate <= endDate;
+
+		return isWithinDateRange;
+	});
+	return asd;
+}

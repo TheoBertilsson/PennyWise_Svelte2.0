@@ -5,7 +5,7 @@
 	import Select from '../meltUI/Select.svelte';
 	import { currentDateIntervall, budget } from '../stores/budgetStores.svelte';
 	const {
-		elements: { trigger, overlay, content, title, close, portalled },
+		elements: { trigger, overlay, content, close, portalled },
 		states: { open }
 	} = createDialog({ forceVisible: true });
 

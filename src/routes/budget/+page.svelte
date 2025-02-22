@@ -11,7 +11,8 @@
 	import CategoryBudgetList from '$lib/components/CategoryBudgetList.svelte';
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
 	import DountChartWithoutLabels from '$lib/components/chart/DountChartWithoutLabels.svelte';
-	import { setBudget, setDates } from '$lib/components/functions';
+	import { getMonthlyBudgetItems, setBudget, setDates } from '$lib/components/functions';
+	import DonutChart from '$lib/components/chart/DonutChart.svelte';
 
 	let { data } = $props();
 
@@ -22,24 +23,11 @@
 		user.name = data.user.displayName;
 		user.email = data.user.email;
 		budget.items = data.budgetItems;
-		const asd = data.budgetItems.filter((item: Budget) => {
-			const createdDate = new Date(item.createdAt);
-
-			const isWithinDateRange = item.dueDate
-				? currentDateIntervall.startDate &&
-					currentDateIntervall.endDate &&
-					new Date(item.dueDate) >= currentDateIntervall.startDate &&
-					new Date(item.dueDate) <= currentDateIntervall.endDate
-				: currentDateIntervall.startDate &&
-					currentDateIntervall.endDate &&
-					createdDate >= currentDateIntervall.startDate &&
-					createdDate <= currentDateIntervall.endDate;
-
-			return isWithinDateRange;
-		});
-		console.log(asd);
-
-		budget.monthlyItems = asd;
+		budget.monthlyItems = getMonthlyBudgetItems(
+			budget.items,
+			currentDateIntervall.startDate,
+			currentDateIntervall.endDate
+		);
 		setBudget(budget.monthlyItems);
 	}
 </script>
@@ -54,7 +42,7 @@
 				>This months budget is empty, add an item to start budgeting</span
 			>
 		{:else}
-			<DountChartWithoutLabels />
+			<DonutChart />
 			<div class="flex w-full flex-col items-center justify-center gap-2">
 				{#if !clickedChartInfo.budgetCategory}
 					<BudgetItemsList />
