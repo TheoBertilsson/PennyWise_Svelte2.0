@@ -1,5 +1,6 @@
 import type { Budget } from './models/types';
-import { budgetSums, currentDateIntervall, user } from './stores/budgetStores.svelte';
+import { currentDateIntervall, getBudgetSums, user } from './stores/budgetStores.svelte';
+let budgetSums = getBudgetSums() || { income: 0, expenses: 0, remaining: 0 };
 
 export async function setBudget(monthlyItems: Budget[]) {
 	getBudgetExpenses(monthlyItems);

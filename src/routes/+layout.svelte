@@ -10,16 +10,15 @@
 
 	$effect(() => {
 		if (!currentDateIntervall.startDate && !currentDateIntervall.endDate) return;
+		const startDate = currentDateIntervall.startDate;
+		const endDate = currentDateIntervall.endDate;
 		console.log('fisk');
 		untrack(() => {
-			budget.monthlyItems = getMonthlyBudgetItems(
-				budget.items || [],
-				currentDateIntervall.startDate,
-				currentDateIntervall.endDate
-			);
-			setBudget(budget.monthlyItems);
+			budget.monthlyItems = getMonthlyBudgetItems(budget.items || [], startDate, endDate);
+			console.log('horse');
 		});
 	});
+	$inspect(budget);
 </script>
 
 {@render children()}

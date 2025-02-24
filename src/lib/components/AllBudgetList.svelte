@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Budget } from './models/types';
-	import { budgetSums, budget } from './stores/budgetStores.svelte';
+	import { budget, getBudgetSums } from './stores/budgetStores.svelte';
 
 	export const snipper = budgetList;
 	let expenseBudget: Budget[] = $state([]);
 	let incomeBudget: Budget[] = $state([]);
+	let budgetSums = getBudgetSums() || { income: 0, expenses: 0, remaining: 0 };
 
 	$effect(() => {
 		if (budget.monthlyItems) {

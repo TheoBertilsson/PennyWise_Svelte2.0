@@ -15,11 +15,20 @@ export let budget = $state<{ items: Budget[] | undefined; monthlyItems: Budget[]
 	monthlyItems: undefined
 });
 
-export const budgetSums = $state<{ expenses: number; income: number; remaining: number }>({
-	expenses: 0,
-	income: 0,
-	remaining: 0
+let budgetSums = $derived.by(() => {
+	console.log('budgetSums');
+
+	if (!budget.monthlyItems) return;
+	const expenses = budget.monthlyItems
+		.filter((item) => item.category !== 'income')
+		.reduce((sum, item) => sum + Number(item.price), 0);
+	const income = budget.monthlyItems
+		.filter((item) => item.category === 'income')
+		.reduce((sum, item) => sum + Number(item.price), 0);
+	const remaining = income - expenses;
+	return { expenses, income, remaining };
 });
+export const getBudgetSums = () => budgetSums;
 export const currentDateIntervall = $state<{ startDate?: Date; endDate?: Date }>({});
 
 export let user = $state<{ name: string; email: string }>({ name: '', email: '' });

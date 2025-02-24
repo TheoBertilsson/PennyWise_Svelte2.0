@@ -5,12 +5,12 @@
 	import MonthSlider from '$lib/components/MonthSlider.svelte';
 	import {
 		budget,
-		budgetSums,
 		currentDateIntervall,
+		getBudgetSums,
 		user
 	} from '$lib/components/stores/budgetStores.svelte';
 	let { data } = $props();
-
+	let budgetSums = getBudgetSums() || { income: 0, expenses: 0, remaining: 0 };
 	if (!budget.monthlyItems) {
 		if (!currentDateIntervall.startDate || !currentDateIntervall.endDate) {
 			setDates();
